@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthContext } from './contexts/AuthContext';
 import { useAuth } from './hooks/UseAuth';
 
-import AppRoute from './AppRoute';
 import LayoutPage from './pages/common/LayoutPage';
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
       <BrowserRouter>
         <AuthContext.Provider value={useAuth()}>
           <LayoutPage />
-          <AppRoute />
         </AuthContext.Provider>
       </BrowserRouter>
     </div>
