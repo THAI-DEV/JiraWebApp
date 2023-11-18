@@ -1,0 +1,5 @@
+Snippet
+    rfce function
+    rafc arrow function
+Run 
+    npm run dev
