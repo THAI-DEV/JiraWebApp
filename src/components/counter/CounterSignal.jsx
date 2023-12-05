@@ -11,7 +11,7 @@ const counter = signal({
 
 function CounterSignal({ titleText }) {
   //? Local value
-  // const counter = useSignal({
+  // const counter = signal({
   //   count: 0,
   //   totalCount: 0,
   //   operator: [],
