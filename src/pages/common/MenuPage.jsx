@@ -1,9 +1,9 @@
 import { Menubar } from 'primereact/menubar';
 import { Button } from 'primereact/button';
 
-import { useAuth } from '../hooks/UseAuth';
+import { useAuth } from '../../hooks/UseAuth';
 
-export const Navbar = () => {
+export const MenuPage = () => {
   const { username, loginHandler, logoutHandler, isLogin } = useAuth();
 
   const items = [
@@ -41,11 +41,9 @@ export const Navbar = () => {
 
   return (
     <>
-      <div className="card">
+      <div className="border-1 border-round">
         <Menubar model={items} start={start} end={end} />
       </div>
-
-      <hr />
     </>
   );
 };

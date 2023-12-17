@@ -1,10 +1,10 @@
-import { Navbar } from './../../components/Navbar';
+import { MenuPage } from './MenuPage';
 import AppRoute from './../../AppRoute';
 
 function LayoutPage() {
   return (
     <>
-      <Navbar />
+      <MenuPage />
       <AppRoute />
     </>
   );
