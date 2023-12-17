@@ -1,42 +1,50 @@
-import { NavLink } from 'react-router-dom';
+import { Menubar } from 'primereact/menubar';
+import { Button } from 'primereact/button';
+
 import { useAuth } from '../hooks/UseAuth';
 
 export const Navbar = () => {
   const { username, loginHandler, logoutHandler, isLogin } = useAuth();
 
+  const items = [
+    {
+      label: 'Home',
+      icon: 'pi pi-home',
+      url: '#/',
+    },
+    {
+      label: 'Info',
+      icon: 'pi pi-info',
+      url: '#/info',
+    },
+    {
+      label: 'Ex1',
+      icon: 'pi pi-clone',
+      url: '#/ex001',
+    },
+    {
+      label: 'Ex2',
+      icon: 'pi pi-clone',
+      url: '#/ex002',
+    },
+  ];
+
+  const start = <h2>Example</h2>;
+
+  const end = (
+    <div className="flex align-items-center justify-content-start">
+      {isLogin && <div style={{ color: 'black', backgroundColor: 'yellow' }}>[{username}]</div>}
+      {!isLogin && <Button icon="pi pi-check" onClick={loginHandler}></Button>}
+      {isLogin && <Button icon="pi pi-times" onClick={logoutHandler}></Button>}
+    </div>
+  );
+
   return (
     <>
-      <div className={'nav-container'}>
-        <h2>Example</h2>
-        <nav id="sidebar" className={'nav-item-container'}>
-          <NavLink to="/" className={'nav-item'}>
-            Home
-          </NavLink>
-          <NavLink to="/info" className={'nav-item'}>
-            Info
-          </NavLink>
-          <NavLink to="/ex001" className={'nav-item'}>
-            Ex001
-          </NavLink>
-          <NavLink to="/ex002" className={'nav-item'}>
-            Ex002
-          </NavLink>
-
-          {isLogin && <div style={{ color: 'black', backgroundColor: 'yellow' }}>[{username}]</div>}
-
-          {!isLogin && (
-            <button style={{ border: '1px solid black' }} onClick={loginHandler}>
-              Login
-            </button>
-          )}
-
-          {isLogin && (
-            <button style={{ border: '1px solid black' }} onClick={logoutHandler}>
-              Logout
-            </button>
-          )}
-        </nav>
+      <div className="card">
+        <Menubar model={items} start={start} end={end} />
       </div>
+
       <hr />
     </>
   );

@@ -1,6 +1,8 @@
-import './App.css';
+// import './App.css';
+
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+
+import { HashRouter } from 'react-router-dom';
 
 import { AuthContext } from './contexts/AuthContext';
 import { useAuth } from './hooks/UseAuth';
@@ -10,11 +12,11 @@ import LayoutPage from './pages/common/LayoutPage';
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <HashRouter>
         <AuthContext.Provider value={useAuth()}>
           <LayoutPage />
         </AuthContext.Provider>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
