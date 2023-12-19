@@ -1,5 +1,12 @@
 Snippet
     rfce function
     rafc arrow function
+
+Ref
+    https://developer.atlassian.com/
+    https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#about
+
+    https://primereact.org/installation/
+
 Run 
     npm run dev

@@ -23,9 +23,9 @@ export const MenuPage = () => {
       url: '#/ex001',
     },
     {
-      label: 'Ex2',
+      label: 'App001',
       icon: 'pi pi-clone',
-      url: '#/ex002',
+      url: '#/app001',
     },
   ];
 

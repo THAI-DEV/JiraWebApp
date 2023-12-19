@@ -5,7 +5,7 @@ import { Progress } from './components/Progress';
 const HomePage = lazy(() => import('./pages/common/HomePage'));
 const InfoPage = lazy(() => import('./pages/common/InfoPage'));
 const Ex001 = lazy(() => import('./pages/ex/Ex001Page'));
-const Ex002 = lazy(() => import('./pages/ex/Ex002Page'));
+const App001 = lazy(() => import('./pages/app/app001/App001Page'));
 
 function AppRoute() {
   return (
@@ -17,7 +17,8 @@ function AppRoute() {
         <Route path="/Info" element={<InfoPage />} />
 
         <Route path="/ex001" element={<Ex001 />} />
-        <Route path="/ex002" element={<Ex002 />} />
+
+        <Route path="/app001" element={<App001 />} />
 
         <Route path="/*" element={<h1>There's nothing here!</h1>} />
       </Routes>
