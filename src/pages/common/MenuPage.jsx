@@ -17,11 +17,11 @@ export const MenuPage = () => {
       icon: 'pi pi-info',
       url: '#/info',
     },
-    {
-      label: 'Ex1',
-      icon: 'pi pi-clone',
-      url: '#/ex001',
-    },
+    // {
+    //   label: 'Ex1',
+    //   icon: 'pi pi-clone',
+    //   url: '#/ex001',
+    // },
     {
       label: 'App001',
       icon: 'pi pi-clone',
@@ -29,7 +29,7 @@ export const MenuPage = () => {
     },
   ];
 
-  const start = <h2>Example</h2>;
+  const start = <h2>Jira Info</h2>;
 
   const end = (
     <div className="flex align-items-center justify-content-start">

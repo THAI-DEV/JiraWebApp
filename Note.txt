@@ -6,7 +6,8 @@ Ref
     https://developer.atlassian.com/
     https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#about
 
-    https://primereact.org/installation/
+    https://primereact.org/installation
+    https://primeflex.org/flex
 
 Run 
     npm run dev
