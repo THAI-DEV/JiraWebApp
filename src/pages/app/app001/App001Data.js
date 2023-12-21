@@ -20,8 +20,8 @@ export const operatorList = ['AND', 'OR'];
 export async function initUser() {
   await userService()
     .then(function (returnData) {
-      projectList.splice(0, assigneeList.length);
-      projectList.splice(0, reporterList.length);
+      assigneeList.splice(1, assigneeList.length);
+      reporterList.splice(1, reporterList.length);
       returnData.map((item) => {
         assigneeList.push({ name: item.displayName, code: item.accountId });
         reporterList.push({ name: item.displayName, code: item.accountId });
@@ -37,7 +37,7 @@ export async function initUser() {
 export async function initPeoject() {
   await projectService()
     .then(function (returnData) {
-      projectList.splice(0, projectList.length);
+      projectList.splice(1, projectList.length);
 
       returnData.map((item) => {
         projectList.push({ name: item.name, code: item.key });
