@@ -66,6 +66,10 @@ export default function App001Page() {
 
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
+  const defaultAutoRefreshVal = 60; // 1 minute
+
+  const [countdown, setCountdown] = useState(defaultAutoRefreshVal);
+
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
     let _filters = { ...filters };
@@ -150,27 +154,51 @@ export default function App001Page() {
     return () => {};
   }, []);
 
+  /*
   useEffect(() => {
-    console.log('Use Effect');
+    // console.log('Use Effect');
 
     let id = null;
     if (isAutoRefresh) {
+      setCountdown(defaultAutoRefreshVal - 1);
       id = setInterval(() => {
-        console.log('Call Interval : ' + id);
+        // console.log('Call Interval : ' + id);
 
         autoBtn.current.click();
-      }, 1000 * 60); // 1 minute
+      }, 1000 * defaultAutoRefreshVal); // 1 minute
 
-      console.log('Set Interval : ' + id);
+      // console.log('Set Interval : ' + id);
     }
-
     return () => {
       if (id != null) {
         clearInterval(id);
-        console.log('Clear Interval : ' + id);
+        // console.log('Clear Interval : ' + id);
       }
     };
   }, [isAutoRefresh]);
+
+  */
+
+  useEffect(() => {
+    // console.log('Use Effect');
+    let id = null;
+    if (isAutoRefresh) {
+      id = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+        if (countdown <= 1) {
+          setCountdown(defaultAutoRefreshVal);
+          autoBtn.current.click();
+          // console.log('Call Interval : ' + id);
+        }
+      }, 1000);
+    }
+    return () => {
+      if (id != null) {
+        clearTimeout(id);
+        // console.log('Clear Interval : ' + id);
+      }
+    };
+  }, [isAutoRefresh, countdown]);
 
   const autoBtn = useRef(null);
   const toast = useRef(null);
@@ -320,10 +348,16 @@ export default function App001Page() {
   return (
     <>
       <h3>แสดงข้อมูล Issue ของ Jira ตามเงื่อนไขที่ระบุุ</h3>
-      <div className="flex flex-wrap gap-2 justify-content-end align-items-center">
-        <Checkbox onChange={(e) => setAutoRefresh(e.checked)} checked={isAutoRefresh} />
+      <div className="flex flex-wrap gap-2 justify-content-start align-items-center">
+        <Checkbox
+          onChange={(e) => {
+            setAutoRefresh(e.checked);
+            setCountdown(defaultAutoRefreshVal);
+          }}
+          checked={isAutoRefresh}
+        />
         &nbsp;&nbsp;&nbsp;
-        <label className="font-bold block mb-2">Auto Refresh(every 1 min)</label>
+        <label className="font-bold block mb-2">Auto Refresh(every 1 min) [{countdown}]</label>
       </div>
 
       <Accordion multiple activeIndex={[0, 1, 2, 3]}>
