@@ -12,6 +12,7 @@ import { Toast } from 'primereact/toast';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
+import { Checkbox } from 'primereact/checkbox';
 
 import { convertDateTimeToJqlDate, formatLocalStr } from './../../../util/util.js';
 
@@ -46,6 +47,8 @@ export default function App001Page() {
 
   const [pageNo, setPageNo] = useState(0);
   const [rowPerPage, setRowPerPage] = useState(100);
+
+  const [isAutoRefresh, setAutoRefresh] = useState(false);
 
   const [jiraData, setJiraData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -147,6 +150,29 @@ export default function App001Page() {
     return () => {};
   }, []);
 
+  useEffect(() => {
+    console.log('Use Effect');
+
+    let id = null;
+    if (isAutoRefresh) {
+      id = setInterval(() => {
+        console.log('Call Interval : ' + id);
+
+        autoBtn.current.click();
+      }, 1000 * 60); // 1 minute
+
+      console.log('Set Interval : ' + id);
+    }
+
+    return () => {
+      if (id != null) {
+        clearInterval(id);
+        console.log('Clear Interval : ' + id);
+      }
+    };
+  }, [isAutoRefresh]);
+
+  const autoBtn = useRef(null);
   const toast = useRef(null);
 
   const showPopupMsg = (typeMsg, title, msg, delayMilisec) => {
@@ -294,6 +320,12 @@ export default function App001Page() {
   return (
     <>
       <h3>แสดงข้อมูล Issue ของ Jira ตามเงื่อนไขที่ระบุุ</h3>
+      <div className="flex flex-wrap gap-2 justify-content-end align-items-center">
+        <Checkbox onChange={(e) => setAutoRefresh(e.checked)} checked={isAutoRefresh} />
+        &nbsp;&nbsp;&nbsp;
+        <label className="font-bold block mb-2">Auto Refresh(every 1 min)</label>
+      </div>
+
       <Accordion multiple activeIndex={[0, 1, 2, 3]}>
         <AccordionTab header="User">
           <div className="grid">
@@ -400,7 +432,7 @@ export default function App001Page() {
               <Button severity="info" label="Total" onClick={issueTotalHandler} />
             </div>
             <div className="col-2">
-              <Button severity="success" label="Execute" onClick={issueAllHandler} />
+              <Button ref={autoBtn} severity="success" label="Execute" onClick={issueAllHandler} />
             </div>
 
             <div className="col-2">
