@@ -16,7 +16,7 @@ import { Checkbox } from 'primereact/checkbox';
 
 import { NonBreakingSpace } from '../../../components/NonBreakingSpace.jsx';
 
-import { convertDateTimeToJqlDate, formatLocalStr } from './../../../util/util.js';
+import { convertDateTimeToJqlDate, formatLocalStr, createDurationFormatter } from './../../../util/util.js';
 
 import {
   initUser,
@@ -67,6 +67,7 @@ export default function App001Page() {
     assignee: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     reporter: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
+    duration: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
   });
 
   const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -105,6 +106,14 @@ export default function App001Page() {
     }));
   }
 
+  function genDuration(data) {
+    let durationFormatter = createDurationFormatter('en-US');
+    return data.map((item) => ({
+      ...item,
+      duration: durationFormatter(new Date(item.updated) - new Date(item.created)),
+    }));
+  }
+
   const formatDate = (value) => {
     return formatLocalStr(value.substring(0, 19));
   };
@@ -130,6 +139,8 @@ export default function App001Page() {
       });
 
     result = genRowNo(result);
+
+    result = genDuration(result);
 
     setJiraData(result);
 
@@ -158,14 +169,19 @@ export default function App001Page() {
     setGlobalFilterValue(value);
   };
 
+  //* TAG ---- Head Table ---- */
   const renderHeaderTable = () => {
     return (
-      <>
-        <h4 className="m-0" style={{ color: 'blue' }}>
-          Last Data : {lastRefresh} , Total Row : {totalRow}
-        </h4>
-        <div className="flex flex-wrap gap-2 justify-content-end align-items-center">
-          <h4 className="m-0">Filter Data</h4>
+      <div className="grid">
+        <div className="col-3">
+          <div className="m-2" style={{ color: 'blue' }}>
+            Last Data : {lastRefresh} , Total Row : {totalRow}
+          </div>
+        </div>
+
+        <div className="col-9 text-right">
+          <label>Filter Data</label>
+          <NonBreakingSpace num={3} />
           <span className="p-input-icon-left">
             <i className="pi pi-search" />
             <InputText
@@ -176,7 +192,7 @@ export default function App001Page() {
             />
           </span>
         </div>
-      </>
+      </div>
     );
   };
 
@@ -377,7 +393,7 @@ export default function App001Page() {
             </div>
             <div className="col-2">
               <label className="font-bold block mb-2">&nbsp;</label>
-              <Button severity="secondary" label="Same Reporter" onClick={sameReporterHandle} />
+              <Button severity="primary" label="Same Reporter" onClick={sameReporterHandle} />
             </div>
 
             <div className="col-2">
@@ -398,7 +414,7 @@ export default function App001Page() {
             </div>
             <div className="col-2">
               <label className="font-bold block mb-2">&nbsp;</label>
-              <Button severity="secondary" label="Same Assignee" onClick={sameAssigneeHandle} />
+              <Button severity="primary" label="Same Assignee" onClick={sameAssigneeHandle} />
             </div>
           </div>
 
@@ -474,6 +490,7 @@ export default function App001Page() {
               'created',
               'status',
               'rowNo',
+              'duration',
             ]}
             rowsPerPageOptions={[10, 20, 30, 50, 100]}
             header={renderHeaderTable()}
@@ -498,6 +515,7 @@ export default function App001Page() {
             />
             <Column field="created" header="Created" dataType="date" body={dateBodyTemplate1} sortable />
             <Column field="updated" header="Updated" dataType="date" body={dateBodyTemplate2} sortable />
+            <Column field="duration" header="Duration" sortable filter />
           </DataTable>
         </AccordionTab>
       </Accordion>
