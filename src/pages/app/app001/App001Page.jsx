@@ -67,6 +67,8 @@ export default function App001Page() {
     assignee: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     reporter: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
+    created: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
+    updated: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     duration: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
   });
 
@@ -513,8 +515,8 @@ export default function App001Page() {
               sortable
               filter
             />
-            <Column field="created" header="Created" dataType="date" body={dateBodyTemplate1} sortable />
-            <Column field="updated" header="Updated" dataType="date" body={dateBodyTemplate2} sortable />
+            <Column field="created" header="Created" dataType="date" body={dateBodyTemplate1} sortable filter />
+            <Column field="updated" header="Updated" dataType="date" body={dateBodyTemplate2} sortable filter />
             <Column field="duration" header="Duration" sortable filter />
           </DataTable>
         </AccordionTab>

@@ -34,7 +34,9 @@ export function formatLocalStr(value) {
     dateVal = new Date(value);
   }
 
-  return dateVal.toLocaleString('th-TH', {
+  // 27/12/2566 00:12:31
+
+  let strTemp = dateVal.toLocaleString('th-TH', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
@@ -43,6 +45,27 @@ export function formatLocalStr(value) {
     second: '2-digit',
     hour12: false,
   });
+
+  let str1 = strTemp.substring(0, 6);
+  let str2 = strTemp.substring(10, 19);
+
+  let yearStr = strTemp.substring(6, 10);
+
+  let year = parseInt(yearStr) - 543;
+
+  yearStr = str1 + String(year) + str2;
+
+  // return dateVal.toLocaleString('th-TH', {
+  //   day: '2-digit',
+  //   month: '2-digit',
+  //   year: 'numeric',
+  //   hour: '2-digit',
+  //   minute: '2-digit',
+  //   second: '2-digit',
+  //   hour12: false,
+  // });
+
+  return yearStr;
 }
 
 function pluralize(count, singular, plural) {

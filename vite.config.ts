@@ -10,4 +10,8 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1600,
   },
+  define: {
+    __BUILD_DATE__: new Date(),
+    __BUILD_BY__: JSON.stringify('DECH'),
+  },
 });
