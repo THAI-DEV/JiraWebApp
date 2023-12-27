@@ -53,6 +53,7 @@ export default function App001Page() {
   const [rowPerPage, setRowPerPage] = useState(100);
   const [isAutoRefresh, setAutoRefresh] = useState(false);
   const [isShowOptBtn, setShowOptBtn] = useState(false);
+  const [isUseCurrentDuration, setUseCurrentDuration] = useState(false); // use current date for compute duration
   const [jiraData, setJiraData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -114,13 +115,22 @@ export default function App001Page() {
     let result = [];
 
     data.map((item) => {
-      let date1 = new Date(item.updated);
-      let date2 = new Date(item.created);
-      let dur = date1 - date2;
+      let date1;
+      let date2;
+
+      if (isUseCurrentDuration) {
+        date1 = new Date();
+        date2 = new Date(item.updated);
+      } else {
+        date1 = new Date(item.updated);
+        date2 = new Date(item.created);
+      }
+
+      let diff = date1 - date2;
 
       let newItem = {
         ...item,
-        duration: durationFormatter(dur),
+        duration: durationFormatter(diff),
       };
 
       result.push(newItem);
@@ -311,6 +321,7 @@ export default function App001Page() {
     setAutoRefresh(false);
     setCountdown(defaultAutoRefreshVal);
     setShowOptBtn(false);
+    setUseCurrentDuration(false);
   }
   function searchHandler() {
     execSearch();
@@ -469,6 +480,17 @@ export default function App001Page() {
               <label className="font-bold block mb-2">&nbsp;</label>
               <Button severity="danger" label="Clear" onClick={clearlHandler} />
               <NonBreakingSpace num={10} />
+              <Checkbox
+                onChange={(e) => {
+                  setUseCurrentDuration(e.checked);
+                }}
+                checked={isUseCurrentDuration}
+              />
+              <NonBreakingSpace num={5} />
+              <label className="font-bold">Use current date cal duration</label>
+
+              <NonBreakingSpace num={5} />
+              {/* xxx */}
               <Checkbox
                 onChange={(e) => {
                   setShowOptBtn(e.checked);
