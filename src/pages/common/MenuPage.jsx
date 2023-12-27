@@ -27,6 +27,11 @@ export const MenuPage = () => {
       icon: 'pi pi-clone',
       url: '#/app001',
     },
+    {
+      label: 'Login',
+      icon: 'pi pi-user',
+      url: '#/login',
+    },
   ];
 
   const start = <h2>Jira Info</h2>;

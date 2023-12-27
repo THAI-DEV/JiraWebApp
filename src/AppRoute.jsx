@@ -4,6 +4,8 @@ import { Progress } from './components/Progress';
 
 const HomePage = lazy(() => import('./pages/common/HomePage'));
 const InfoPage = lazy(() => import('./pages/common/InfoPage'));
+const LoginPage = lazy(() => import('./pages/common/LoginPage'));
+
 const Ex001 = lazy(() => import('./pages/ex/Ex001Page'));
 const App001 = lazy(() => import('./pages/app/app001/App001Page'));
 
@@ -14,7 +16,8 @@ function AppRoute() {
         <Route path="/" element={<Navigate to="/home" />} />
         {/* <Route path="/" element={<HomePage />} /> */}
         <Route path="/home" element={<HomePage />} />
-        <Route path="/Info" element={<InfoPage />} />
+        <Route path="/info" element={<InfoPage />} />
+        <Route path="/login" element={<LoginPage />} />
 
         <Route path="/ex001" element={<Ex001 />} />
 

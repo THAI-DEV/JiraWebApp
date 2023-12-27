@@ -110,10 +110,28 @@ export default function App001Page() {
 
   function genDuration(data) {
     let durationFormatter = createDurationFormatter('en-US');
-    return data.map((item) => ({
-      ...item,
-      duration: durationFormatter(new Date(item.updated) - new Date(item.created)),
-    }));
+
+    let result = [];
+
+    data.map((item) => {
+      let date1 = new Date(item.updated);
+      let date2 = new Date(item.created);
+      let dur = date1 - date2;
+
+      let newItem = {
+        ...item,
+        duration: durationFormatter(dur),
+      };
+
+      result.push(newItem);
+    });
+
+    return result;
+
+    // return data.map((item) => ({
+    //   ...item,
+    //   duration: durationFormatter(new Date(item.updated) - new Date(item.created)),
+    // }));
   }
 
   const formatDate = (value) => {
@@ -400,7 +418,12 @@ export default function App001Page() {
 
             <div className="col-2">
               <label className="font-bold block mb-2">Operator</label>
-              <SelectButton value={operator} onChange={(e) => setOperator(e.value)} options={operatorList} />
+              <SelectButton
+                value={operator}
+                onChange={(e) => setOperator(e.value)}
+                options={operatorList}
+                allowEmpty={false}
+              />
             </div>
 
             <div className="col-3">
