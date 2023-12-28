@@ -13,6 +13,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
 import { Checkbox } from 'primereact/checkbox';
+import { RadioButton } from 'primereact/radiobutton';
 
 import { NonBreakingSpace } from '../../../components/NonBreakingSpace.jsx';
 
@@ -37,6 +38,7 @@ export default function App001Page() {
   //* TAG  ---- Var (begin) ----
   const defaultAutoRefreshVal = 60; // 1 minute
   let formData = {};
+  let currentDateForDuration;
   //* TAG  ---- Var (end) ----
 
   //* TAG ---- State (begin) ----
@@ -53,7 +55,7 @@ export default function App001Page() {
   const [rowPerPage, setRowPerPage] = useState(100);
   const [isAutoRefresh, setAutoRefresh] = useState(false);
   const [isShowOptBtn, setShowOptBtn] = useState(false);
-  const [isUseCurrentDuration, setUseCurrentDuration] = useState(false); // use current date for compute duration
+  const [durationType, setDurationType] = useState('1');
   const [jiraData, setJiraData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -112,36 +114,33 @@ export default function App001Page() {
   function genDuration(data) {
     let durationFormatter = createDurationFormatter('en-US');
 
-    let result = [];
-
-    data.map((item) => {
+    currentDateForDuration = new Date();
+    return data.map((item) => {
       let date1;
       let date2;
 
-      if (isUseCurrentDuration) {
-        date1 = new Date();
-        date2 = new Date(item.updated);
-      } else {
+      if (durationType === '1') {
         date1 = new Date(item.updated);
+        date2 = new Date(item.created);
+      }
+
+      if (durationType === '2') {
+        date1 = currentDateForDuration;
+        date2 = new Date(item.updated);
+      }
+
+      if (durationType === '3') {
+        date1 = currentDateForDuration;
         date2 = new Date(item.created);
       }
 
       let diff = date1 - date2;
 
-      let newItem = {
+      return {
         ...item,
         duration: durationFormatter(diff),
       };
-
-      result.push(newItem);
     });
-
-    return result;
-
-    // return data.map((item) => ({
-    //   ...item,
-    //   duration: durationFormatter(new Date(item.updated) - new Date(item.created)),
-    // }));
   }
 
   const formatDate = (value) => {
@@ -177,7 +176,7 @@ export default function App001Page() {
     showPopupMsg('success', 'Info', 'Load Issue All Success', 5000);
 
     setLoading(false);
-    setLastRefresh(formatLocalStr(null));
+    setLastRefresh(formatLocalStr(currentDateForDuration));
 
     setTotalRow(result.length);
   }
@@ -321,7 +320,7 @@ export default function App001Page() {
     setAutoRefresh(false);
     setCountdown(defaultAutoRefreshVal);
     setShowOptBtn(false);
-    setUseCurrentDuration(false);
+    setDurationType('1');
   }
   function searchHandler() {
     execSearch();
@@ -479,18 +478,8 @@ export default function App001Page() {
             <div className="col-4 ">
               <label className="font-bold block mb-2">&nbsp;</label>
               <Button severity="danger" label="Clear" onClick={clearlHandler} />
-              <NonBreakingSpace num={10} />
-              <Checkbox
-                onChange={(e) => {
-                  setUseCurrentDuration(e.checked);
-                }}
-                checked={isUseCurrentDuration}
-              />
-              <NonBreakingSpace num={5} />
-              <label className="font-bold">Use current date cal duration</label>
 
               <NonBreakingSpace num={5} />
-              {/* xxx */}
               <Checkbox
                 onChange={(e) => {
                   setShowOptBtn(e.checked);
@@ -498,7 +487,7 @@ export default function App001Page() {
                 checked={isShowOptBtn}
               />
               <NonBreakingSpace num={5} />
-              <label className="font-bold">Show Optional</label>
+              <label className="font-bold">Show Optional (DEV)</label>
             </div>
           </div>
 
@@ -513,6 +502,51 @@ export default function App001Page() {
                 <NonBreakingSpace num={10} />
                 <Button severity="info" label="Count Total" onClick={countTotalHandler} />
               </span>
+            </div>
+          </div>
+
+          <div className="grid">
+            <div className="col">
+              <label className="font-bold">Duration Formula</label>
+
+              <div className="flex flex-wrap gap-3">
+                <div className="flex align-items-center">
+                  <RadioButton
+                    inputId="durationType1"
+                    name="durationType"
+                    value="1"
+                    onChange={(e) => setDurationType(e.value)}
+                    checked={durationType === '1'}
+                  />
+                  <label htmlFor="durationType1" className="ml-2">
+                    Duration = Updated Date - Created Date
+                  </label>
+                </div>
+                <div className="flex align-items-center">
+                  <RadioButton
+                    inputId="durationType2"
+                    name="durationType"
+                    value="2"
+                    onChange={(e) => setDurationType(e.value)}
+                    checked={durationType === '2'}
+                  />
+                  <label htmlFor="durationType2" className="ml-2">
+                    Duration = Current Date - Updated Date
+                  </label>
+                </div>
+                <div className="flex align-items-center">
+                  <RadioButton
+                    inputId="durationType3"
+                    name="durationType"
+                    value="3"
+                    onChange={(e) => setDurationType(e.value)}
+                    checked={durationType === '3'}
+                  />
+                  <label htmlFor="durationType3" className="ml-2">
+                    Duration = Current Date - Created Date
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </AccordionTab>
