@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 
+import { useAtom } from 'jotai';
+
+import { authUserInfoAtom } from '../../../store/store.js';
+
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 import { Button } from 'primereact/button';
@@ -36,9 +40,12 @@ import {
 
 export default function App001Page() {
   //* TAG  ---- Var (begin) ----
+  const [authUserInfo] = useAtom(authUserInfoAtom);
+
   const defaultAutoRefreshVal = 60; // 1 minute
   let formData = {};
   let currentDateForDuration;
+
   //* TAG  ---- Var (end) ----
 
   //* TAG ---- State (begin) ----
@@ -262,6 +269,14 @@ export default function App001Page() {
 
   //* TAG ---- Effect (begin) ----
   useEffect(() => {
+    if (authUserInfo && !authUserInfo.isPassLogin) {
+      window.location.href = '#/login';
+    }
+
+    return () => {};
+  }, [authUserInfo]);
+
+  useEffect(() => {
     initUser();
     initPeoject();
 
@@ -300,7 +315,7 @@ export default function App001Page() {
   //* TAG ---- Ref (end) ----
 
   //* TAG ---- Handler (begin) ----
-  function clearlHandler() {
+  function clearHandler() {
     setAssignee(defaultDropDownVal);
     setOperator(operatorList[0]);
     setReporter(defaultDropDownVal);
@@ -385,7 +400,7 @@ export default function App001Page() {
   //* TAG ---- Display Html (begin) ----
   return (
     <>
-      <h2 style={{ color: 'blue' }}>แสดงข้อมูล Issue ใน Jira ตามเงื่อนไขที่ระบุุ</h2>
+      <h2 style={{ color: 'blue' }}>แสดงข้อมูล Issue ใน Jira ตามเงื่อนไขที่ระบุ</h2>
       <div className="grid">
         <div className="col-2">
           <label className="font-bold block ">&nbsp;</label>
@@ -477,7 +492,7 @@ export default function App001Page() {
             {/* TAG ---- Clear Btn */}
             <div className="col-4 ">
               <label className="font-bold block mb-2">&nbsp;</label>
-              <Button severity="danger" label="Clear" onClick={clearlHandler} />
+              <Button severity="danger" label="Clear" onClick={clearHandler} />
 
               <NonBreakingSpace num={5} />
               <Checkbox

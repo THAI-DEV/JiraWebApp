@@ -1,10 +1,11 @@
-import { Menubar } from 'primereact/menubar';
-import { Button } from 'primereact/button';
+import { useAtom } from 'jotai';
 
-import { useAuth } from '../../hooks/UseAuth';
+import { Menubar } from 'primereact/menubar';
+
+import { authUserInfoAtom } from '../../store/store.js';
 
 export const MenuPage = () => {
-  const { username, loginHandler, logoutHandler, isLogin } = useAuth();
+  const [authUserInfo] = useAtom(authUserInfoAtom);
 
   const items = [
     {
@@ -34,13 +35,21 @@ export const MenuPage = () => {
     },
   ];
 
+  const cal = () => {
+    if (authUserInfo && authUserInfo.isPassLogin) {
+      return <>Login : {authUserInfo.userLogin}</>;
+    } else {
+      return <>Not Login</>;
+    }
+  };
+
   const start = <h2>Jira Info</h2>;
 
   const end = (
     <div className="flex align-items-center justify-content-start">
-      {isLogin && <div style={{ color: 'black', backgroundColor: 'yellow' }}>[{username}]</div>}
-      {!isLogin && <Button icon="pi pi-check" onClick={loginHandler}></Button>}
-      {isLogin && <Button icon="pi pi-times" onClick={logoutHandler}></Button>}
+      <div className="font-bold" style={{ color: 'green' }}>
+        {cal()}
+      </div>
     </div>
   );
 
