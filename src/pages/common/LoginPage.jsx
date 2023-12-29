@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 
 import { Toast } from 'primereact/toast';
 import { Card } from 'primereact/card';
@@ -11,14 +11,18 @@ import { NonBreakingSpace } from '../../components/NonBreakingSpace.jsx';
 
 import { ADMIN_USER, ADMIN_PASSWORD } from './../../cont/app-config.js';
 
-import { actionLogin, resetLogin, authUserInfoAtom } from '../../store/store.js';
+import { actionLoginAtom, resetLoginAtom, authUserInfoAtom } from '../../store/store.js';
 
 function LoginPage() {
   const toast = useRef(null);
 
   //* TAG ---- Atom (begin) ----
-  const [, actionLoginHandler] = useAtom(actionLogin);
-  const [, actionLogoutHandler] = useAtom(resetLogin);
+  const setActionLogin = useSetAtom(actionLoginAtom);
+  // const [, actionLogin] = useAtom(actionLoginAtom);
+
+  const setResetLogin = useSetAtom(resetLoginAtom);
+  //const [, resetLogin] = useAtom(resetLoginAtom);
+
   const [authUserInfo] = useAtom(authUserInfoAtom);
   //* TAG ---- Atom (end) ----
 
@@ -38,17 +42,17 @@ function LoginPage() {
   }
   function loginHandler() {
     if (login === ADMIN_USER && password === ADMIN_PASSWORD) {
-      actionLoginHandler('login pass', login);
+      setActionLogin('pass', login);
       showPopupMsg('success', 'Info', 'Login Success', 5000);
       window.location.href = '#/app001';
     } else {
-      actionLoginHandler('login fail', login);
+      setActionLogin('fail', login);
       showPopupMsg('error', 'Error', 'Login Fail', 5000);
     }
   }
 
   function logoutHandler() {
-    actionLogoutHandler();
+    setResetLogin();
   }
   //* TAG ---- Handler (end) ----
 

@@ -10,22 +10,22 @@ const initUserInfo = {
 
 //* sessionStorage
 const sessionStore = createJSONStorage(() => sessionStorage);
-export const authUserInfoAtom = atomWithStorage('AuthUserInfoJotai', initUserInfo, sessionStore);
+export const authUserInfoAtom = atomWithStorage('AuthUserInfo', initUserInfo, sessionStore);
 
 //* Optional
 
-export const actionLogin = atom(null, (get, set, payload, loginVal) => {
-  //   let userInfo = get(authUserInfoAtom);
+export const actionLoginAtom = atom(null, (get, set, payload, loginVal) => {
+  // let userInfo = get(authUserInfoAtom);
   let newUserInfo;
 
-  if (payload === 'login pass') {
+  if (payload === 'pass') {
     newUserInfo = {
       userLogin: loginVal,
       isPassLogin: true,
     };
   }
 
-  if (payload === 'login fail') {
+  if (payload === 'fail') {
     newUserInfo = {
       userInfo: loginVal,
       isPassLogin: false,
@@ -35,7 +35,7 @@ export const actionLogin = atom(null, (get, set, payload, loginVal) => {
   set(authUserInfoAtom, newUserInfo);
 });
 
-export const resetLogin = atom(null, (get, set) => {
+export const resetLoginAtom = atom(null, (get, set) => {
   //   const userInfo = get(authUserInfoAtom);
   const newCounter = {
     userInfo: '',
