@@ -14,8 +14,15 @@ export const authUserInfoAtom = atomWithStorage('AuthUserInfo', initUserInfo, se
 
 //* Optional
 
-export const actionLoginAtom = atom(null, (get, set, payload, loginVal) => {
-  // let userInfo = get(authUserInfoAtom);
+export const loginTitleAtom = atom((get) => {
+  if (get(authUserInfoAtom).isPassLogin) {
+    return 'Logout';
+  }
+
+  return 'Login';
+});
+
+export const actionLoginAtom = atom(null, (_get, set, payload, loginVal) => {
   let newUserInfo;
 
   if (payload === 'pass') {
@@ -35,12 +42,11 @@ export const actionLoginAtom = atom(null, (get, set, payload, loginVal) => {
   set(authUserInfoAtom, newUserInfo);
 });
 
-export const resetLoginAtom = atom(null, (get, set) => {
-  //   const userInfo = get(authUserInfoAtom);
-  const newCounter = {
+export const resetLoginAtom = atom(null, (_get, set) => {
+  const newUserInfo = {
     userInfo: '',
     isPassLogin: false,
   };
 
-  set(authUserInfoAtom, newCounter);
+  set(authUserInfoAtom, newUserInfo);
 });

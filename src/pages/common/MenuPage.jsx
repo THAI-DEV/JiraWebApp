@@ -1,13 +1,14 @@
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 
 import { Menubar } from 'primereact/menubar';
 
-import { authUserInfoAtom } from '../../store/store.js';
+import { authUserInfoAtom, loginTitleAtom } from '../../store/store.js';
 
 export const MenuPage = () => {
-  const [authUserInfo] = useAtom(authUserInfoAtom);
+  const authUserInfo = useAtomValue(authUserInfoAtom);
+  const loginTitle = useAtomValue(loginTitleAtom);
 
-  let items = [
+  const items = [
     {
       label: 'Home',
       icon: 'pi pi-home',
@@ -29,7 +30,7 @@ export const MenuPage = () => {
       url: '#/app001',
     },
     {
-      label: 'Login',
+      label: `${loginTitle}`,
       icon: 'pi pi-user',
       url: '#/login',
     },
@@ -37,14 +38,6 @@ export const MenuPage = () => {
 
   const computeAuth = () => {
     if (authUserInfo && authUserInfo.isPassLogin) {
-      const newItems = {
-        label: 'logout',
-        icon: 'pi pi-user',
-        url: '#/login',
-      };
-      items = items.slice(0, items.length - 1);
-      items.push(newItems);
-
       return <>Login : {authUserInfo.userLogin}</>;
     } else {
       return <>Not Login</>;

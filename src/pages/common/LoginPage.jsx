@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 
 import { Toast } from 'primereact/toast';
 import { Card } from 'primereact/card';
@@ -11,19 +11,16 @@ import { NonBreakingSpace } from '../../components/NonBreakingSpace.jsx';
 
 import { ADMIN_USER, ADMIN_PASSWORD } from './../../cont/app-config.js';
 
-import { actionLoginAtom, resetLoginAtom, authUserInfoAtom } from '../../store/store.js';
+import { actionLoginAtom, resetLoginAtom, authUserInfoAtom, loginTitleAtom } from '../../store/store.js';
 
 function LoginPage() {
   const toast = useRef(null);
 
   //* TAG ---- Atom (begin) ----
   const setActionLogin = useSetAtom(actionLoginAtom);
-  // const [, actionLogin] = useAtom(actionLoginAtom);
-
   const setResetLogin = useSetAtom(resetLoginAtom);
-  //const [, resetLogin] = useAtom(resetLoginAtom);
-
-  const [authUserInfo] = useAtom(authUserInfoAtom);
+  const authUserInfo = useAtomValue(authUserInfoAtom);
+  const loginTitle = useAtomValue(loginTitleAtom);
   //* TAG ---- Atom (end) ----
 
   const showPopupMsg = (typeMsg, title, msg, delayMilisec) => {
@@ -58,7 +55,7 @@ function LoginPage() {
 
   return (
     <>
-      <Card title={!authUserInfo.isPassLogin ? 'Login' : 'Logout'} className="text-center">
+      <Card title={loginTitle} className="text-center">
         <div className="m-0">
           <div className="col">
             <label className="font-bold">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Login : </label>
