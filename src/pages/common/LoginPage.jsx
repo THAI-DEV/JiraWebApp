@@ -58,23 +58,28 @@ function LoginPage() {
 
   return (
     <>
-      <Card title="Login" className="text-center">
+      <Card title={!authUserInfo.isPassLogin ? 'Login' : 'Logout'} className="text-center">
         <div className="m-0">
           <div className="col">
             <label className="font-bold">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Login : </label>
-            <InputText value={login} onChange={(e) => setLogin(e.target.value)} />
+            <InputText value={login} onChange={(e) => setLogin(e.target.value)} disabled={authUserInfo.isPassLogin} />
           </div>
 
           <div className="col">
             <label className="font-bold">Password : </label>
-            <InputText value={password} onChange={(e) => setPassword(e.target.value)} type="password" />
+            <InputText
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              disabled={authUserInfo.isPassLogin}
+            />
           </div>
           <div className="col">
-            <Button severity="success" label="Login" onClick={loginHandler} disabled={authUserInfo.isPassLogin} />
+            <Button severity="success" label="Login" onClick={loginHandler} visible={!authUserInfo.isPassLogin} />
             <NonBreakingSpace num={5} />
-            <Button severity="secondary" label="Clear" onClick={clearHandler} disabled={authUserInfo.isPassLogin} />
+            <Button severity="secondary" label="Clear" onClick={clearHandler} visible={!authUserInfo.isPassLogin} />
             <NonBreakingSpace num={5} />
-            <Button severity="danger" label="Logout" onClick={logoutHandler} disabled={!authUserInfo.isPassLogin} />
+            <Button severity="danger" label="Logout" onClick={logoutHandler} visible={authUserInfo.isPassLogin} />
           </div>
         </div>
       </Card>

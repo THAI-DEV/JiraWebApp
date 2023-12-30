@@ -7,7 +7,7 @@ import { authUserInfoAtom } from '../../store/store.js';
 export const MenuPage = () => {
   const [authUserInfo] = useAtom(authUserInfoAtom);
 
-  const items = [
+  let items = [
     {
       label: 'Home',
       icon: 'pi pi-home',
@@ -35,8 +35,16 @@ export const MenuPage = () => {
     },
   ];
 
-  const cal = () => {
+  const computeAuth = () => {
     if (authUserInfo && authUserInfo.isPassLogin) {
+      const newItems = {
+        label: 'logout',
+        icon: 'pi pi-user',
+        url: '#/login',
+      };
+      items = items.slice(0, items.length - 1);
+      items.push(newItems);
+
       return <>Login : {authUserInfo.userLogin}</>;
     } else {
       return <>Not Login</>;
@@ -48,7 +56,7 @@ export const MenuPage = () => {
   const end = (
     <div className="flex align-items-center justify-content-start">
       <div className="font-bold" style={{ color: 'green' }}>
-        {cal()}
+        {computeAuth()}
       </div>
     </div>
   );
