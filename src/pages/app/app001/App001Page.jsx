@@ -402,7 +402,7 @@ export default function App001Page() {
     <>
       <h2 style={{ color: 'blue' }}>แสดงข้อมูล Issue ใน Jira ตามเงื่อนไขที่ระบุ</h2>
       <div className="grid">
-        <div className="col-2">
+        <div className="col-3">
           <label className="font-bold block ">&nbsp;</label>
           <Checkbox
             onChange={(e) => {
@@ -412,7 +412,9 @@ export default function App001Page() {
             checked={isAutoRefresh}
           />
           <NonBreakingSpace num={5} />
-          <label className="font-bold">Auto Refresh(every 1 min) [{countdown}]</label>
+          <label className="font-bold">
+            Auto Refresh(every {defaultAutoRefreshVal / 60} min) [{countdown} second]
+          </label>
         </div>
         {/* TAG ---- Search Btn */}
         <div className="col-2 ">

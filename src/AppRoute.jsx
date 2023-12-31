@@ -19,7 +19,7 @@ function AppRoute() {
         <Route path="/info" element={<InfoPage />} />
         <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/ex001" element={<Ex001 />} />
+        {/* <Route path="/ex001" element={<Ex001 />} /> */}
 
         <Route path="/app001" element={<App001 />} />
 
