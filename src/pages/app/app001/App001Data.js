@@ -10,12 +10,19 @@ import { today, tomorrow } from './../../../util/util';
 export const defaultDropDownVal = { name: 'ไม่ระบุ', code: null };
 export const defaultBeginVal = today();
 export const defaultEndVal = tomorrow();
+export const defaultAutoRefreshVal = 60; // 1 minute
 
 export const assigneeList = [defaultDropDownVal];
 export const reporterList = [defaultDropDownVal];
 export const projectList = [defaultDropDownVal];
 
 export const operatorList = ['AND', 'OR'];
+
+export const statusCategoryDataList = [
+  { name: 'To Do', code: 'To Do' },
+  { name: 'In Progress', code: 'In Progress' },
+  { name: 'Done', code: 'Done' },
+];
 
 export async function initUser() {
   await userService()

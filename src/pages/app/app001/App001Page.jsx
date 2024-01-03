@@ -18,6 +18,7 @@ import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
 import { Checkbox } from 'primereact/checkbox';
 import { RadioButton } from 'primereact/radiobutton';
+import { MultiSelect } from 'primereact/multiselect';
 
 import { NonBreakingSpace } from '../../../components/NonBreakingSpace.jsx';
 
@@ -33,6 +34,8 @@ import {
   defaultDropDownVal,
   defaultBeginVal,
   defaultEndVal,
+  defaultAutoRefreshVal,
+  statusCategoryDataList,
   issueAll,
   genJql,
   issueTotal,
@@ -42,7 +45,6 @@ export default function App001Page() {
   //* TAG  ---- Var (begin) ----
   const [authUserInfo] = useAtom(authUserInfoAtom);
 
-  const defaultAutoRefreshVal = 60; // 1 minute
   let formData = {};
   let currentDateForDuration;
 
@@ -58,6 +60,8 @@ export default function App001Page() {
   const [project, setProject] = useState(defaultDropDownVal);
   const [beginDate, setBeginDate] = useState(defaultBeginVal);
   const [endDate, setEndDate] = useState(defaultEndVal);
+  const [statusCategorySelectList, setStatusCategorySelectList] = useState(null);
+
   const [pageNo, setPageNo] = useState(0);
   const [rowPerPage, setRowPerPage] = useState(100);
   const [isAutoRefresh, setAutoRefresh] = useState(false);
@@ -90,6 +94,7 @@ export default function App001Page() {
     formData = {
       beginDate: convertDateTimeToJqlDate(beginDate),
       endDate: convertDateTimeToJqlDate(endDate),
+      statusCategoryList: [],
     };
 
     if (assignee.code != null) {
@@ -106,6 +111,14 @@ export default function App001Page() {
 
     if (project.code != null) {
       formData.project = project.code;
+    }
+
+    if (statusCategorySelectList) {
+      statusCategorySelectList.map((item) => {
+        if (item != null) {
+          formData.statusCategoryList.push(item.code);
+        }
+      });
     }
 
     return formData;
@@ -324,6 +337,7 @@ export default function App001Page() {
 
     setBeginDate(defaultBeginVal);
     setEndDate(defaultEndVal);
+    setStatusCategorySelectList(null);
     setPageNo(0);
     setRowPerPage(100);
 
@@ -349,9 +363,18 @@ export default function App001Page() {
       project: project.code,
       beginDate: convertDateTimeToJqlDate(beginDate),
       endDate: convertDateTimeToJqlDate(endDate),
+      statusCategoryList: [],
       pageNo: pageNo,
       rowPerPage: rowPerPage,
     };
+
+    if (statusCategorySelectList) {
+      statusCategorySelectList.map((item) => {
+        if (item != null) {
+          data.statusCategoryList.push(item.code);
+        }
+      });
+    }
 
     showPopupMsg('info', 'Debug', JSON.stringify(data, null, 2), 10000);
   }
@@ -482,6 +505,7 @@ export default function App001Page() {
                 placeholder="Select a Project"
               />
             </div>
+            <NonBreakingSpace num={10} />
             <div className="col-2">
               <label className="font-bold block mb-2">Begin Update Date</label>
               <Calendar dateFormat={'yy-mm-dd'} showIcon value={beginDate} onChange={(e) => setBeginDate(e.value)} />
@@ -491,37 +515,24 @@ export default function App001Page() {
               <Calendar dateFormat={'yy-mm-dd'} showIcon value={endDate} onChange={(e) => setEndDate(e.value)} />
             </div>
 
-            {/* TAG ---- Clear Btn */}
-            <div className="col-4 ">
-              <label className="font-bold block mb-2">&nbsp;</label>
-              <Button severity="danger" label="Clear" onClick={clearHandler} />
-
-              <NonBreakingSpace num={5} />
-              <Checkbox
-                onChange={(e) => {
-                  setShowOptBtn(e.checked);
-                }}
-                checked={isShowOptBtn}
-              />
-              <NonBreakingSpace num={5} />
-              <label className="font-bold">Show Optional (DEV)</label>
+            <NonBreakingSpace num={10} />
+            <div className="col-2">
+              <label className="font-bold block mb-2">Status Category</label>
+              <div className="flex flex-wrap gap-3">
+                <MultiSelect
+                  value={statusCategorySelectList}
+                  onChange={(e) => setStatusCategorySelectList(e.value)}
+                  options={statusCategoryDataList}
+                  optionLabel="name"
+                  placeholder="Select status Category"
+                  maxSelectedLabels={3}
+                  className="w-full md:w-20rem"
+                />
+              </div>
             </div>
           </div>
 
-          <div className="grid">
-            <div className="col-12 text-right">
-              {/* TAG ---- Optional Command Btn */}
-              <span hidden={!isShowOptBtn}>
-                <NonBreakingSpace num={10} />
-                <Button label="Debug" onClick={debugHandler} />
-                <NonBreakingSpace num={10} />
-                <Button severity="info" label="Gen JQL" onClick={genJqlHandler} />
-                <NonBreakingSpace num={10} />
-                <Button severity="info" label="Count Total" onClick={countTotalHandler} />
-              </span>
-            </div>
-          </div>
-
+          {/* TAG ---- Duration */}
           <div className="grid">
             <div className="col">
               <label className="font-bold">Duration Formula</label>
@@ -564,6 +575,36 @@ export default function App001Page() {
                   </label>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* TAG ---- Clear Btn */}
+          <div className="col text-center ">
+            <label className="font-bold block mb-2">&nbsp;</label>
+            <Button severity="danger" label="Clear" onClick={clearHandler} />
+
+            <NonBreakingSpace num={5} />
+            <Checkbox
+              onChange={(e) => {
+                setShowOptBtn(e.checked);
+              }}
+              checked={isShowOptBtn}
+            />
+            <NonBreakingSpace num={5} />
+            <label className="font-bold">Show Optional (DEV)</label>
+          </div>
+
+          <div className="grid">
+            <div className="col-12 text-center">
+              {/* TAG ---- Optional Command Btn */}
+              <span hidden={!isShowOptBtn}>
+                <NonBreakingSpace num={10} />
+                <Button label="Debug" onClick={debugHandler} />
+                <NonBreakingSpace num={10} />
+                <Button severity="info" label="Gen JQL" onClick={genJqlHandler} />
+                <NonBreakingSpace num={10} />
+                <Button severity="info" label="Count Total" onClick={countTotalHandler} />
+              </span>
             </div>
           </div>
         </AccordionTab>
