@@ -76,7 +76,12 @@ function mapNickName(inputData) {
   let result = [];
   inputData.map((item) => {
     const newData = userInfoData.find((obj) => obj.displayName === item.displayName);
-    result.push({ ...item, displayName: newData.nickName });
+
+    if (newData) {
+      result.push({ ...item, displayName: newData.nickName });
+    } else {
+      result.push({ ...item });
+    }
   });
 
   return result;
