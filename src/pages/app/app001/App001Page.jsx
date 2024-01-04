@@ -493,6 +493,8 @@ export default function App001Page() {
             </div>
           </div>
 
+          <br />
+
           <div className="grid">
             <div className="col-4">
               <label className="font-bold block mb-2">Project</label>
@@ -531,6 +533,8 @@ export default function App001Page() {
               </div>
             </div>
           </div>
+
+          <br />
 
           {/* TAG ---- Duration */}
           <div className="grid">
