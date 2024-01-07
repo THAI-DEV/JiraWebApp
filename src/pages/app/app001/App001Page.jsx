@@ -4,10 +4,8 @@ import { useAtom } from 'jotai';
 
 import { authUserInfoAtom } from '../../../store/store';
 
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
-
 import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
+
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import { SelectButton } from 'primereact/selectbutton';
@@ -15,7 +13,7 @@ import { Accordion, AccordionTab } from 'primereact/accordion';
 import { Toast } from 'primereact/toast';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Tag } from 'primereact/tag';
+
 import { Checkbox } from 'primereact/checkbox';
 import { RadioButton } from 'primereact/radiobutton';
 import { MultiSelect } from 'primereact/multiselect';
@@ -40,6 +38,8 @@ import {
   genJql,
   issueTotal,
 } from './App001Data.js';
+
+import useApp001Table from './App001Table';
 
 export default function App001Page() {
   //* TAG  ---- Var (begin) ----
@@ -72,21 +72,8 @@ export default function App001Page() {
 
   const [countdown, setCountdown] = useState(defaultAutoRefreshVal);
 
-  const [filters, setFilters] = useState({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    rowNo: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    projectName: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    key: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    summary: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    assignee: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    reporter: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    created: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    updated: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    duration: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-  });
-
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
+  const { filters, renderHeaderTable, linkBodyTemplate, dateBodyTemplate1, dateBodyTemplate2, statusBodyTemplate } =
+    useApp001Table(lastRefresh, totalRow);
   //* TAG ---- State (end) ----
 
   //* TAG ---- Function (begin) ----
@@ -163,10 +150,6 @@ export default function App001Page() {
     });
   }
 
-  const formatDate = (value) => {
-    return formatLocalStr(value.substring(0, 19));
-  };
-
   async function execSearch() {
     setLastRefresh(formatLocalStr(null));
     setLoading(true);
@@ -206,79 +189,6 @@ export default function App001Page() {
   };
 
   //* TAG ---- Function (end) ----
-
-  //* TAG ---- For Data Table (begin) ----
-  const onGlobalFilterChange = (e) => {
-    const value = e.target.value;
-    let _filters = { ...filters };
-
-    _filters['global'].value = value;
-
-    setFilters(_filters);
-    setGlobalFilterValue(value);
-  };
-
-  //* TAG ---- Head Table ---- */
-  const renderHeaderTable = () => {
-    return (
-      <div className="grid">
-        <div className="col-3">
-          <div className="m-2" style={{ color: 'blue' }}>
-            Last Data : {lastRefresh} , Total Row : {totalRow}
-          </div>
-        </div>
-
-        <div className="col-9 text-right">
-          <label>Filter Data</label>
-          <NonBreakingSpace num={3} />
-          <span className="p-input-icon-left">
-            <i className="pi pi-search" />
-            <InputText
-              value={globalFilterValue}
-              onChange={onGlobalFilterChange}
-              placeholder="Keyword Filter"
-              style={{ width: '400px' }}
-            />
-          </span>
-        </div>
-      </div>
-    );
-  };
-
-  const linkBodyTemplate = (rowData) => {
-    const linkStr = `https://jira-sense-info-tech.atlassian.net/browse/` + rowData.key;
-    return (
-      <a target="_blank" href={linkStr}>
-        {rowData.key}
-      </a>
-    );
-  };
-
-  const dateBodyTemplate1 = (rowData) => {
-    return formatDate(rowData.created);
-  };
-
-  const dateBodyTemplate2 = (rowData) => {
-    return formatDate(rowData.updated);
-  };
-
-  const getSeverity = (status) => {
-    switch (status) {
-      case 'Done':
-        return 'success';
-      case 'To Do':
-        return 'warning';
-      case 'In Progress':
-        return 'info';
-      default:
-        return null;
-    }
-  };
-
-  const statusBodyTemplate = (rowData) => {
-    return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
-  };
-  //* TAG ---- For Data Table (end) ----
 
   //* TAG ---- Effect (begin) ----
   useEffect(() => {
@@ -636,7 +546,7 @@ export default function App001Page() {
               'duration',
             ]}
             rowsPerPageOptions={[10, 20, 30, 50, 100]}
-            header={renderHeaderTable()}
+            header={renderHeaderTable}
             emptyMessage="No data found."
             paginator
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
