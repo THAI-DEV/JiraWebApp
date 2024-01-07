@@ -6,7 +6,7 @@ const HomePage = lazy(() => import('./pages/common/HomePage'));
 const InfoPage = lazy(() => import('./pages/common/InfoPage'));
 const LoginPage = lazy(() => import('./pages/common/LoginPage'));
 
-const Ex001 = lazy(() => import('./pages/ex/Ex001Page'));
+// const Ex001 = lazy(() => import('./pages/ex/Ex001Page'));
 const App001 = lazy(() => import('./pages/app/app001/App001Page'));
 
 function AppRoute() {

@@ -1,7 +1,7 @@
 import { Card } from 'primereact/card';
 
-import { formatLocalStr } from './../../util/util.js';
-import { BUILD_DATE, BUILD_BY } from './../../cont/app-config.js';
+import { formatLocalStr } from './../../util/util';
+import { BUILD_DATE, BUILD_BY } from './../../cont/app-config';
 
 function InfoPage() {
   return (

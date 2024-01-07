@@ -7,11 +7,13 @@ export const useAuth = () => {
   const loginHandler = () => {
     setUsername('DECH');
     setIsLogin(true);
+    console.log('login');
   };
 
   const logoutHandler = () => {
     setUsername('');
     setIsLogin(false);
+    console.log('logout');
   };
 
   return {

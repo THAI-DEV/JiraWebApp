@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
-// import CounterSignal from '../../components/counter/CounterSignal';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../hooks/UseAuth';
 
 function Ex001Page() {
   const initData = [{ name: 'a' }, { name: 'b' }, { name: 'c' }];
+  const { username, loginHandler } = useAuth();
+
+  useEffect(() => {
+    loginHandler();
+  }, [loginHandler]);
 
   // const list = useMemo(() => {
   //   return initData;
@@ -23,6 +28,14 @@ function Ex001Page() {
           {item.name} <button onClick={() => deleteHandler(index)}>Delete</button>
         </div>
       ))}
+      <button
+        onClick={() => {
+          // loginHandler();
+          console.log(username);
+        }}
+      >
+        exe
+      </button>
     </>
   );
 }

@@ -7,11 +7,11 @@ import { Card } from 'primereact/card';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
-import { NonBreakingSpace } from '../../components/NonBreakingSpace.jsx';
+import { NonBreakingSpace } from '../../components/NonBreakingSpace';
 
-import { ADMIN_USER, ADMIN_PASSWORD } from './../../cont/app-config.js';
+import { ADMIN_USER, ADMIN_PASSWORD } from './../../cont/app-config';
 
-import { actionLoginAtom, resetLoginAtom, authUserInfoAtom, loginTitleAtom } from '../../store/store.js';
+import { actionLoginAtom, resetLoginAtom, authUserInfoAtom, loginTitleAtom } from '../../store/store';
 
 function LoginPage() {
   const toast = useRef(null);

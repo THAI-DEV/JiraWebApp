@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { authUserInfoAtom } from '../../../store/store.js';
+import { authUserInfoAtom } from '../../../store/store';
 
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
@@ -20,9 +20,9 @@ import { Checkbox } from 'primereact/checkbox';
 import { RadioButton } from 'primereact/radiobutton';
 import { MultiSelect } from 'primereact/multiselect';
 
-import { NonBreakingSpace } from '../../../components/NonBreakingSpace.jsx';
+import { NonBreakingSpace } from '../../../components/NonBreakingSpace';
 
-import { convertDateTimeToJqlDate, formatLocalStr, createDurationFormatter } from './../../../util/util.js';
+import { convertDateTimeToJqlDate, formatLocalStr, createDurationFormatter } from './../../../util/util';
 
 import {
   initUser,
