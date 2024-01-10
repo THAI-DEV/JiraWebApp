@@ -30,6 +30,11 @@ export const MenuPage = () => {
       url: '#/app001',
     },
     {
+      label: 'App002',
+      icon: 'pi pi-clone',
+      url: '#/app002',
+    },
+    {
       label: `${loginTitle}`,
       icon: 'pi pi-user',
       url: '#/login',
