@@ -7,10 +7,12 @@ import {
 } from '../../../service/app/AppService';
 import { today, tomorrow } from './../../../util/util';
 
+import { AUTO_REFRESH_SEC } from './../../../cont/cont';
+
 export const defaultDropDownVal = { name: 'ไม่ระบุ', code: null };
 export const defaultBeginVal = today();
 export const defaultEndVal = tomorrow();
-export const defaultAutoRefreshVal = 60; // 1 minute
+export const defaultAutoRefreshVal = AUTO_REFRESH_SEC; // 60 = 1 minute
 
 export const assigneeList = [defaultDropDownVal];
 export const reporterList = [defaultDropDownVal];

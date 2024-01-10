@@ -448,7 +448,7 @@ export default function App001Page() {
           <br />
 
           <div className="grid">
-            <div className="col-4">
+            <div className="col-3">
               <label className="font-bold block mb-2">Project</label>
               <Dropdown
                 className="w-full"
@@ -464,8 +464,8 @@ export default function App001Page() {
               <label className="font-bold block mb-2">Begin Update Date</label>
               <Calendar dateFormat={'yy-mm-dd'} showIcon value={beginDate} onChange={(e) => setBeginDate(e.value)} />
             </div>
-            <div className="col-2">
-              <label className="font-bold block mb-2">End Update Date</label>
+            <div className="col-3">
+              <label className="font-bold block mb-2">End Update Date (ต้องมากกว่าวันที่ต้องการค้นหา)</label>
               <Calendar dateFormat={'yy-mm-dd'} showIcon value={endDate} onChange={(e) => setEndDate(e.value)} />
             </div>
 
