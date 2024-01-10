@@ -10,9 +10,9 @@ import { Accordion, AccordionTab } from 'primereact/accordion';
 import { Toast } from 'primereact/toast';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Checkbox } from 'primereact/checkbox';
 import { RadioButton } from 'primereact/radiobutton';
 import { MultiSelect } from 'primereact/multiselect';
+import { InputSwitch } from 'primereact/inputswitch';
 
 import { NonBreakingSpace } from '../../../components/NonBreakingSpace';
 
@@ -173,10 +173,6 @@ export default function App001Page() {
 
     result = genDuration(result);
 
-    if (isShowNickName) {
-      result = mapDataTableNickName(result);
-    }
-
     setJiraData(result);
 
     showPopupMsg('success', 'Info', 'Load Issue All Success', 5000);
@@ -187,27 +183,45 @@ export default function App001Page() {
     setTotalRow(result.length);
   }
 
-  function mapDataTableNickName(inputData) {
+  function showDataTableNickNameHandler(inputData) {
     let newDataList = [];
+    if (isShowNickName) {
+      inputData.map((item) => {
+        const findAssigneeData = userInfoData.find((obj) => obj.nickName === item.assignee);
+        const findReporterData = userInfoData.find((obj) => obj.nickName === item.reporter);
 
-    inputData.map((item) => {
-      const findAssigneeData = userInfoData.find((obj) => obj.displayName === item.assignee);
-      const findReporterData = userInfoData.find((obj) => obj.displayName === item.reporter);
+        const newData = { ...item };
 
-      const newData = { ...item };
+        if (findAssigneeData) {
+          newData.assignee = findAssigneeData.displayName;
+        }
 
-      if (findAssigneeData) {
-        newData.assignee = findAssigneeData.nickName;
-      }
+        if (findReporterData) {
+          newData.reporter = findReporterData.displayName;
+        }
 
-      if (findReporterData) {
-        newData.reporter = findReporterData.nickName;
-      }
+        newDataList.push(newData);
+        setJiraData(newDataList);
+      });
+    } else {
+      inputData.map((item) => {
+        const findAssigneeData = userInfoData.find((obj) => obj.displayName === item.assignee);
+        const findReporterData = userInfoData.find((obj) => obj.displayName === item.reporter);
 
-      newDataList.push(newData);
-    });
+        const newData = { ...item };
 
-    return newDataList;
+        if (findAssigneeData) {
+          newData.assignee = findAssigneeData.nickName;
+        }
+
+        if (findReporterData) {
+          newData.reporter = findReporterData.nickName;
+        }
+
+        newDataList.push(newData);
+        setJiraData(newDataList);
+      });
+    }
   }
 
   const showPopupMsg = (typeMsg, title, msg, delayMilisec) => {
@@ -364,9 +378,9 @@ export default function App001Page() {
       <div className="grid">
         <div className="col-3">
           <label className="font-bold block ">&nbsp;</label>
-          <Checkbox
+          <InputSwitch
             onChange={(e) => {
-              setAutoRefresh(e.checked);
+              setAutoRefresh(e.value);
               setCountdown(defaultAutoRefreshVal);
             }}
             checked={isAutoRefresh}
@@ -515,19 +529,6 @@ export default function App001Page() {
                     Duration = Current Date - Created Date
                   </label>
                 </div>
-
-                <div className="col-4">
-                  <div className="flex align-items-right">
-                    <Checkbox
-                      onChange={(e) => {
-                        setShowNickName(e.checked);
-                      }}
-                      checked={isShowNickName}
-                    />
-                    <NonBreakingSpace num={5} />
-                    <label className="font-bold">Show As NickName</label>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -538,9 +539,9 @@ export default function App001Page() {
             <Button severity="danger" label="Clear" onClick={clearHandler} />
 
             <NonBreakingSpace num={5} />
-            <Checkbox
+            <InputSwitch
               onChange={(e) => {
-                setShowOptBtn(e.checked);
+                setShowOptBtn(e.value);
               }}
               checked={isShowOptBtn}
             />
@@ -565,6 +566,19 @@ export default function App001Page() {
 
         {/* TAG ---- Table */}
         <AccordionTab header="Output Table">
+          <div className="col-2">
+            <div className="align-items-left">
+              <InputSwitch
+                onChange={(e) => {
+                  setShowNickName(e.value);
+                  showDataTableNickNameHandler(jiraData);
+                }}
+                checked={isShowNickName}
+              />
+              <NonBreakingSpace num={5} />
+              <label className="font-bold">Show As NickName</label>
+            </div>
+          </div>
           <DataTable
             value={jiraData}
             showGridlines
