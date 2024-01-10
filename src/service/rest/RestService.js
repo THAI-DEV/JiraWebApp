@@ -1,5 +1,7 @@
+import { REST_BASE_URL } from './../../cont/cont';
+
 export async function projectAllRest() {
-  let url = import.meta.env.VITE_REST_BASE_URL + '/projectAll';
+  let url = REST_BASE_URL + '/projectAll';
 
   const response = await fetch(url, {
     method: 'GET',
@@ -13,7 +15,7 @@ export async function projectAllRest() {
 }
 
 export async function userAllRest() {
-  let url = import.meta.env.VITE_REST_BASE_URL + '/userAll';
+  let url = REST_BASE_URL + '/userAll';
 
   const response = await fetch(url, {
     method: 'GET',
@@ -27,7 +29,7 @@ export async function userAllRest() {
 }
 
 export async function genJqlRest(formData) {
-  let url = import.meta.env.VITE_REST_BASE_URL + '/genJql';
+  let url = REST_BASE_URL + '/genJql';
 
   const response = await fetch(url, {
     method: 'POST',
@@ -42,7 +44,7 @@ export async function genJqlRest(formData) {
 }
 
 export async function issueTotalRest(formData) {
-  let url = import.meta.env.VITE_REST_BASE_URL + '/issueTotal';
+  let url = REST_BASE_URL + '/issueTotal';
 
   const response = await fetch(url, {
     method: 'POST',
@@ -57,7 +59,7 @@ export async function issueTotalRest(formData) {
 }
 
 export async function issueAllRest(formData) {
-  let url = import.meta.env.VITE_REST_BASE_URL + '/issueAll';
+  let url = REST_BASE_URL + '/issueAll';
 
   const response = await fetch(url, {
     method: 'POST',
