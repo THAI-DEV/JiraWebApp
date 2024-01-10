@@ -2,10 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { authUserInfoAtom } from '../../../store/store';
-
 import { Button } from 'primereact/button';
-
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import { SelectButton } from 'primereact/selectbutton';
@@ -13,7 +10,6 @@ import { Accordion, AccordionTab } from 'primereact/accordion';
 import { Toast } from 'primereact/toast';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-
 import { Checkbox } from 'primereact/checkbox';
 import { RadioButton } from 'primereact/radiobutton';
 import { MultiSelect } from 'primereact/multiselect';
@@ -21,6 +17,8 @@ import { MultiSelect } from 'primereact/multiselect';
 import { NonBreakingSpace } from '../../../components/NonBreakingSpace';
 
 import { convertDateTimeToJqlDate, formatLocalStr, createDurationFormatter } from './../../../util/util';
+import { authUserInfoAtom } from '../../../store/store';
+import { userInfoData } from '../../../data/data';
 
 import {
   initUser,
@@ -67,6 +65,7 @@ export default function App001Page() {
   const [isAutoRefresh, setAutoRefresh] = useState(false);
   const [isShowOptBtn, setShowOptBtn] = useState(false);
   const [durationType, setDurationType] = useState('1');
+  const [isShowNickName, setShowNickName] = useState(false);
   const [jiraData, setJiraData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -174,6 +173,10 @@ export default function App001Page() {
 
     result = genDuration(result);
 
+    if (isShowNickName) {
+      result = mapDataTableNickName(result);
+    }
+
     setJiraData(result);
 
     showPopupMsg('success', 'Info', 'Load Issue All Success', 5000);
@@ -182,6 +185,29 @@ export default function App001Page() {
     setLastRefresh(formatLocalStr(currentDateForDuration));
 
     setTotalRow(result.length);
+  }
+
+  function mapDataTableNickName(inputData) {
+    let newDataList = [];
+
+    inputData.map((item) => {
+      const findAssigneeData = userInfoData.find((obj) => obj.displayName === item.assignee);
+      const findReporterData = userInfoData.find((obj) => obj.displayName === item.reporter);
+
+      const newData = { ...item };
+
+      if (findAssigneeData) {
+        newData.assignee = findAssigneeData.nickName;
+      }
+
+      if (findReporterData) {
+        newData.reporter = findReporterData.nickName;
+      }
+
+      newDataList.push(newData);
+    });
+
+    return newDataList;
   }
 
   const showPopupMsg = (typeMsg, title, msg, delayMilisec) => {
@@ -260,6 +286,7 @@ export default function App001Page() {
     setCountdown(defaultAutoRefreshVal);
     setShowOptBtn(false);
     setDurationType('1');
+    setShowNickName(false);
   }
   function searchHandler() {
     execSearch();
@@ -451,7 +478,7 @@ export default function App001Page() {
             <div className="col">
               <label className="font-bold">Duration Formula</label>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-5">
                 <div className="flex align-items-center">
                   <RadioButton
                     inputId="durationType1"
@@ -487,6 +514,19 @@ export default function App001Page() {
                   <label htmlFor="durationType3" className="ml-2">
                     Duration = Current Date - Created Date
                   </label>
+                </div>
+
+                <div className="col-4">
+                  <div className="flex align-items-right">
+                    <Checkbox
+                      onChange={(e) => {
+                        setShowNickName(e.checked);
+                      }}
+                      checked={isShowNickName}
+                    />
+                    <NonBreakingSpace num={5} />
+                    <label className="font-bold">Show As NickName</label>
+                  </div>
                 </div>
               </div>
             </div>

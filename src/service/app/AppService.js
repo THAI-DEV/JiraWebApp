@@ -75,10 +75,10 @@ export async function issueAllService(formData) {
 function mapNickName(inputData) {
   let result = [];
   inputData.map((item) => {
-    const newData = userInfoData.find((obj) => obj.displayName === item.displayName);
+    const findData = userInfoData.find((obj) => obj.displayName === item.displayName);
 
-    if (newData) {
-      result.push({ ...item, displayName: newData.nickName });
+    if (findData) {
+      result.push({ ...item, displayName: findData.nickName });
     } else {
       result.push({ ...item });
     }

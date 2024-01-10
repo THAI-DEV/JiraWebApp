@@ -60,8 +60,8 @@ export const userInfoData = [
     nickName: 'นุ้ย',
   },
   {
-    displayName: 'siriwan',
-    nickName: 'siriwan',
+    displayName: 'ing siriwan',
+    nickName: 'อิงค์',
   },
   {
     displayName: 'veerayut tharaphum',
