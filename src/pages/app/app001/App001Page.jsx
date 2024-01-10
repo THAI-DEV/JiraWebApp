@@ -152,6 +152,7 @@ export default function App001Page() {
   async function execSearch() {
     setLastRefresh(formatLocalStr(null));
     setLoading(true);
+    setShowNickName(false);
 
     let formData = computeData();
     formData.pageNo = pageNo;
