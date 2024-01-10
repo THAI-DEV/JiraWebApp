@@ -196,7 +196,7 @@ export const userInfoData = [
     nickName: 'ออย',
   },
   {
-    displayNam: 'wasin wachiropakorn',
+    displayName: 'wasin wachiropakorn',
     nickName: 'เต้ย',
   },
 ];
