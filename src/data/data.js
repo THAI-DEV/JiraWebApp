@@ -195,4 +195,8 @@ export const userInfoData = [
     displayName: 'Aoranun Rojsatitpong',
     nickName: 'ออย',
   },
+  {
+    displayNam: 'wasin wachiropakorn',
+    nickName: 'เต้ย',
+  },
 ];
