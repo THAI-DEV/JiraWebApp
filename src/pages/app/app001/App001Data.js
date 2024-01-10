@@ -5,13 +5,14 @@ import {
   issueTotalService,
   issueAllService,
 } from '../../../service/app/AppService';
-import { today, tomorrow } from './../../../util/util';
+import { today } from './../../../util/util';
 
 import { AUTO_REFRESH_SEC } from './../../../cont/cont';
 
 export const defaultDropDownVal = { name: 'ไม่ระบุ', code: null };
 export const defaultBeginVal = today();
-export const defaultEndVal = tomorrow();
+// export const defaultEndVal = tomorrow();
+export const defaultEndVal = today();
 export const defaultAutoRefreshVal = AUTO_REFRESH_SEC; // 60 = 1 minute
 
 export const assigneeList = [defaultDropDownVal];
@@ -26,8 +27,8 @@ export const statusCategoryDataList = [
   { name: 'Done', code: 'Done' },
 ];
 
-export function initUser() {
-  userService()
+export async function initUser() {
+  await userService()
     .then(function (returnData) {
       assigneeList.splice(1, assigneeList.length);
       reporterList.splice(1, reporterList.length);
@@ -40,11 +41,11 @@ export function initUser() {
       console.log(error);
     });
 
-  console.log('call rest user');
+  // console.log('call rest user');
 }
 
-export function initPeoject() {
-  projectService()
+export async function initPeoject() {
+  await projectService()
     .then(function (returnData) {
       projectList.splice(1, projectList.length);
 
@@ -56,7 +57,7 @@ export function initPeoject() {
       console.log(error);
     });
 
-  console.log('call rest project');
+  // console.log('call rest project');
 }
 
 export async function genJql(formData) {

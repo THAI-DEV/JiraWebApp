@@ -77,9 +77,15 @@ export default function App001Page() {
 
   //* TAG ---- Function (begin) ----
   function computeData() {
+    let newEndDate = new Date();
+    newEndDate.setDate(endDate.getDate() + 1); //add 1 day
+
+    // console.log('endDate : ', endDate);
+    // console.log('newEndDate : ', newEndDate);
+
     formData = {
       beginDate: convertDateTimeToJqlDate(beginDate),
-      endDate: convertDateTimeToJqlDate(endDate),
+      endDate: convertDateTimeToJqlDate(newEndDate),
       statusCategoryList: [],
     };
 
@@ -468,12 +474,13 @@ export default function App001Page() {
               <label className="font-bold block mb-2">Begin Update Date</label>
               <Calendar dateFormat={'yy-mm-dd'} showIcon value={beginDate} onChange={(e) => setBeginDate(e.value)} />
             </div>
-            <div className="col-3">
-              <label className="font-bold block mb-2">End Update Date (ต้องมากกว่าวันที่ต้องการค้นหา)</label>
+            <NonBreakingSpace num={10} />
+            <div className="col-2">
+              <label className="font-bold block mb-2">End Update Date</label>
               <Calendar dateFormat={'yy-mm-dd'} showIcon value={endDate} onChange={(e) => setEndDate(e.value)} />
             </div>
 
-            <NonBreakingSpace num={10} />
+            <NonBreakingSpace num={14} />
             <div className="col-2">
               <label className="font-bold block mb-2">Status Category</label>
               <div className="flex flex-wrap gap-3">
