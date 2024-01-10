@@ -25,7 +25,7 @@ export const userInfoData = [
   },
   {
     displayName: 'thanakorn sornpeng',
-    nickName: 'thanakorn sornpeng',
+    nickName: 'โม',
   },
   {
     displayName: 'OOM',
@@ -37,11 +37,11 @@ export const userInfoData = [
   },
   {
     displayName: 'วุฒินันท์ แสงพิทักษ์',
-    nickName: 'เกม',
+    nickName: 'เกมส์',
   },
   {
     displayName: 'Nuttapon Kasemsuk',
-    nickName: 'Nuttapon Kasemsuk',
+    nickName: 'ไมล์',
   },
   {
     displayName: 'klaiwad boonyakan',
@@ -49,7 +49,7 @@ export const userInfoData = [
   },
   {
     displayName: 'Apiwat Bunchawang',
-    nickName: 'ตี๋',
+    nickName: 'ตี้',
   },
   {
     displayName: 'santhanaphong wongthongdee',
@@ -169,7 +169,7 @@ export const userInfoData = [
   },
   {
     displayName: 'Yanisa Thueanchamnan',
-    nickName: 'นี',
+    nickName: 'นีน',
   },
   {
     displayName: 'Mild Anchalee',
