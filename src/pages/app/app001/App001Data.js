@@ -26,8 +26,8 @@ export const statusCategoryDataList = [
   { name: 'Done', code: 'Done' },
 ];
 
-export async function initUser() {
-  await userService()
+export function initUser() {
+  userService()
     .then(function (returnData) {
       assigneeList.splice(1, assigneeList.length);
       reporterList.splice(1, reporterList.length);
@@ -43,8 +43,8 @@ export async function initUser() {
   console.log('call rest user');
 }
 
-export async function initPeoject() {
-  await projectService()
+export function initPeoject() {
+  projectService()
     .then(function (returnData) {
       projectList.splice(1, projectList.length);
 

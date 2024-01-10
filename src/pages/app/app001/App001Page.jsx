@@ -185,6 +185,10 @@ export default function App001Page() {
   }
 
   function showDataTableNickNameHandler(inputData) {
+    if (!inputData) {
+      return;
+    }
+
     let newDataList = [];
     if (isShowNickName) {
       inputData.map((item) => {
