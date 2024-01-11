@@ -71,8 +71,17 @@ export default function App001Page() {
 
   const [countdown, setCountdown] = useState(defaultAutoRefreshVal);
 
-  const { filters, renderHeaderTable, linkBodyTemplate, dateBodyTemplate1, dateBodyTemplate2, statusBodyTemplate } =
-    useApp001Table(lastRefresh, totalRow);
+  const {
+    defaultConfigTable,
+    filters,
+    setFilters,
+    renderHeaderTable,
+    linkBodyTemplate,
+    dateBodyTemplate1,
+    dateBodyTemplate2,
+    statusBodyTemplate,
+    setGlobalFilterValue,
+  } = useApp001Table(lastRefresh, totalRow);
   //* TAG ---- State (end) ----
 
   //* TAG ---- Function (begin) ----
@@ -159,6 +168,8 @@ export default function App001Page() {
     setLastRefresh(formatLocalStr(null));
     setLoading(true);
     setShowNickName(false);
+    setFilters(defaultConfigTable);
+    setGlobalFilterValue('');
 
     let formData = computeData();
     formData.pageNo = pageNo;
@@ -304,6 +315,8 @@ export default function App001Page() {
 
     setLastRefresh(formatLocalStr(null));
     setTotalRow(0);
+    setFilters(defaultConfigTable);
+    setGlobalFilterValue('');
 
     setJiraData(null);
 
@@ -489,7 +502,7 @@ export default function App001Page() {
                   onChange={(e) => setStatusCategorySelectList(e.value)}
                   options={statusCategoryDataList}
                   optionLabel="name"
-                  placeholder="Select status Category"
+                  placeholder="Select Status Category"
                   maxSelectedLabels={3}
                   className="w-full md:w-20rem"
                 />

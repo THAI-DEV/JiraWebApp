@@ -10,7 +10,7 @@ import { NonBreakingSpace } from '../../../components/NonBreakingSpace';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 export default function useApp001Table(lastRefresh, totalRow) {
-  const [filters, setFilters] = useState({
+  const defaultConfigTable = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     rowNo: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     projectName: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
@@ -22,7 +22,9 @@ export default function useApp001Table(lastRefresh, totalRow) {
     created: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     updated: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     duration: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-  });
+  };
+
+  const [filters, setFilters] = useState(defaultConfigTable);
 
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
@@ -102,13 +104,14 @@ export default function useApp001Table(lastRefresh, totalRow) {
   };
 
   return {
+    defaultConfigTable,
     filters,
+    setFilters,
     renderHeaderTable,
     linkBodyTemplate,
     dateBodyTemplate1,
     dateBodyTemplate2,
     statusBodyTemplate,
-    globalFilterValue,
-    onGlobalFilterChange,
+    setGlobalFilterValue,
   };
 }
