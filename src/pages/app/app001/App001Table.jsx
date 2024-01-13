@@ -15,6 +15,7 @@ export default function useApp001Table(lastRefresh, totalRow) {
     rowNo: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     projectName: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     key: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
+    parentKey: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     summary: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     assignee: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     reporter: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
@@ -59,11 +60,25 @@ export default function useApp001Table(lastRefresh, totalRow) {
     return formatLocalStr(value.substring(0, 19));
   };
 
-  const linkBodyTemplate = (rowData) => {
+  const linkBodyTemplate1 = (rowData) => {
     const linkStr = `https://jira-sense-info-tech.atlassian.net/browse/` + rowData.key;
     return (
       <a target="_blank" href={linkStr}>
         {rowData.key}
+      </a>
+    );
+  };
+
+  const linkBodyTemplate2 = (rowData) => {
+    const linkStr = `https://jira-sense-info-tech.atlassian.net/browse/` + rowData.parentKey;
+
+    if (rowData.parentKey === 'none') {
+      return <div>{''}</div>;
+    }
+
+    return (
+      <a target="_blank" href={linkStr}>
+        {rowData.parentKey}
       </a>
     );
   };
@@ -108,7 +123,8 @@ export default function useApp001Table(lastRefresh, totalRow) {
     filters,
     setFilters,
     renderHeaderTable,
-    linkBodyTemplate,
+    linkBodyTemplate1,
+    linkBodyTemplate2,
     dateBodyTemplate1,
     dateBodyTemplate2,
     statusBodyTemplate,

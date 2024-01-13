@@ -76,7 +76,8 @@ export default function App001Page() {
     filters,
     setFilters,
     renderHeaderTable,
-    linkBodyTemplate,
+    linkBodyTemplate1,
+    linkBodyTemplate2,
     dateBodyTemplate1,
     dateBodyTemplate2,
     statusBodyTemplate,
@@ -615,6 +616,7 @@ export default function App001Page() {
             globalFilterFields={[
               'projectName',
               'key',
+              'parentKey',
               'summary',
               'assignee',
               'reporter',
@@ -633,7 +635,8 @@ export default function App001Page() {
           >
             <Column field="rowNo" header="Row No" sortable filter />
             <Column field="projectName" header="Project Name" sortable filter />
-            <Column field="key" header="Key" body={linkBodyTemplate} sortable filter />
+            <Column field="key" header="Key" body={linkBodyTemplate1} sortable filter />
+            <Column field="parentKey" header="Parent" body={linkBodyTemplate2} sortable filter />
             <Column field="summary" header="Summary" sortable filter />
             <Column field="assignee" header="Assignee" sortable filter />
             <Column field="reporter" header="Reporter" sortable filter />
