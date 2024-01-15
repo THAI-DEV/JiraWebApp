@@ -105,7 +105,7 @@ export const userInfoData = [
   },
   {
     displayName: 'Natthawat Chanothan',
-    nickName: 'Natthawat Chanothan',
+    nickName: 'แบงค์ DEV',
   },
   {
     displayName: 'Supawan Sangsrichan',
