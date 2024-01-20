@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
@@ -17,7 +17,8 @@ import { InputSwitch } from 'primereact/inputswitch';
 import { NonBreakingSpace } from '../../../components/NonBreakingSpace';
 
 import { convertDateTimeToJqlDate, formatLocalStr, createDurationFormatter } from './../../../util/util';
-import { authUserInfoAtom } from '../../../store/store';
+import { authUserInfoAtom } from '../../../store/AuthStore';
+import { setTrackAtom } from '../../../store/TrackStore';
 import { userInfoData } from '../../../data/data';
 
 import {
@@ -42,6 +43,7 @@ import useApp001Table from './App001Table';
 export default function App001Page() {
   //* TAG  ---- Var (begin) ----
   const [authUserInfo] = useAtom(authUserInfoAtom);
+  const setTrack = useSetAtom(setTrackAtom);
 
   let formData = {};
   let currentDateForDuration;
@@ -259,8 +261,10 @@ export default function App001Page() {
       window.location.href = '#/login';
     }
 
-    return () => {};
-  }, [authUserInfo]);
+    return () => {
+      setTrack('/app001');
+    };
+  }, [authUserInfo, setTrack]);
 
   useEffect(() => {
     initUser();

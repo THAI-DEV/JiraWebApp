@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai';
 
 import { Menubar } from 'primereact/menubar';
 
-import { authUserInfoAtom, loginTitleAtom } from '../../store/store';
+import { authUserInfoAtom, loginTitleAtom } from '../../store/AuthStore';
 
 export const MenuPage = () => {
   const authUserInfo = useAtomValue(authUserInfoAtom);

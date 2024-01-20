@@ -1,19 +1,23 @@
 import { useEffect } from 'react';
 
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 
-import { authUserInfoAtom } from '../../../store/store';
+import { authUserInfoAtom } from '../../../store/AuthStore';
+import { setTrackAtom } from '../../../store/TrackStore';
 
 export default function App002Page() {
   const [authUserInfo] = useAtom(authUserInfoAtom);
+  const setTrack = useSetAtom(setTrackAtom);
 
   useEffect(() => {
     if (authUserInfo && !authUserInfo.isPassLogin) {
       window.location.href = '#/login';
     }
 
-    return () => {};
-  }, [authUserInfo]);
+    return () => {
+      setTrack('/app002');
+    };
+  }, [authUserInfo, setTrack]);
 
   return (
     <>

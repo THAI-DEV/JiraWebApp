@@ -11,7 +11,8 @@ import { NonBreakingSpace } from '../../components/NonBreakingSpace';
 
 import { ADMIN_USER, ADMIN_PASSWORD } from './../../cont/app-config';
 
-import { actionLoginAtom, resetLoginAtom, authUserInfoAtom, loginTitleAtom } from '../../store/store';
+import { actionLoginAtom, resetLoginAtom, authUserInfoAtom, loginTitleAtom } from '../../store/AuthStore';
+import { trackInfoAtom } from '../../store/TrackStore';
 
 function LoginPage() {
   const toast = useRef(null);
@@ -21,6 +22,8 @@ function LoginPage() {
   const setResetLogin = useSetAtom(resetLoginAtom);
   const authUserInfo = useAtomValue(authUserInfoAtom);
   const loginTitle = useAtomValue(loginTitleAtom);
+
+  const trackInfo = useAtomValue(trackInfoAtom);
   //* TAG ---- Atom (end) ----
 
   const showPopupMsg = (typeMsg, title, msg, delayMilisec) => {
@@ -41,7 +44,12 @@ function LoginPage() {
     if (login === ADMIN_USER && password === ADMIN_PASSWORD) {
       setActionLogin('pass', login);
       showPopupMsg('success', 'Info', 'Login Success', 5000);
-      window.location.href = '#/app001';
+
+      if (trackInfo.lastAppRoute !== '') {
+        window.location.href = '#' + trackInfo.lastAppRoute;
+      } else {
+        window.location.href = '#/app001';
+      }
     } else {
       setActionLogin('fail', login);
       showPopupMsg('error', 'Error', 'Login Fail', 5000);
