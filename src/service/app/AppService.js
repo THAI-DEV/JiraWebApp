@@ -1,5 +1,5 @@
 import { userAllRest, projectAllRest, genJqlRest, issueTotalRest, issueAllRest } from './../rest/RestService';
-import { userInfoData } from './../../data/data';
+import { userInfoData } from './../../data/nick_name-data';
 
 export async function userService() {
   let result;

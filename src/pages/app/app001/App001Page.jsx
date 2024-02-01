@@ -16,10 +16,16 @@ import { InputSwitch } from 'primereact/inputswitch';
 
 import { NonBreakingSpace } from '../../../components/NonBreakingSpace';
 
-import { convertDateTimeToJqlDate, formatLocalStr, createDurationFormatter } from './../../../util/util';
+import {
+  convertDateTimeToJqlDate,
+  formatLocalStr,
+  createDurationFormatter,
+  searchObjInArray,
+} from './../../../util/util';
 import { authUserInfoAtom } from '../../../store/AuthStore';
 import { setTrackAtom } from '../../../store/TrackStore';
-import { userInfoData } from '../../../data/data';
+import { userInfoData } from '../../../data/nick_name-data';
+import { extendUserInfoData } from '../../../data/extend_user-data';
 
 import {
   initUser,
@@ -335,6 +341,18 @@ export default function App001Page() {
     execSearch();
   }
 
+  async function extendHandler() {
+    extendUserInfoData.forEach(function (item) {
+      let searchedData = searchObjInArray(item.code, 'code', assigneeList);
+
+      // Not found
+      if (searchedData === null) {
+        assigneeList.push(item);
+        reporterList.push(item);
+      }
+    });
+  }
+
   async function debugHandler() {
     const data = {
       assignee: assignee.code,
@@ -583,6 +601,8 @@ export default function App001Page() {
             <div className="col-12 text-center">
               {/* TAG ---- Optional Command Btn */}
               <span hidden={!isShowOptBtn}>
+                <NonBreakingSpace num={10} />
+                <Button label="Extend User" onClick={extendHandler} />
                 <NonBreakingSpace num={10} />
                 <Button label="Debug" onClick={debugHandler} />
                 <NonBreakingSpace num={10} />

@@ -1,3 +1,13 @@
+export function searchObjInArray(valueKey, keyName, dataArray) {
+  for (let i = 0; i < dataArray.length; i++) {
+    if (dataArray[i][keyName] === valueKey) {
+      return dataArray[i];
+    }
+  }
+
+  return null;
+}
+
 export function today() {
   const today = new Date();
   // const dd = String(today.getDate()).padStart(2, '0');
