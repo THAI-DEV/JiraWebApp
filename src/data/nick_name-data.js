@@ -199,4 +199,8 @@ export const userInfoData = [
     displayName: 'wasin wachiropakorn',
     nickName: 'เต้ย',
   },
+  {
+    displayName: 'สุวัฒน์ ภวภูตานนท์ ณ มหาสารคาม',
+    nickName: 'มิ้งค์',
+  },
 ];
