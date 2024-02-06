@@ -203,4 +203,8 @@ export const userInfoData = [
     displayName: 'สุวัฒน์ ภวภูตานนท์ ณ มหาสารคาม',
     nickName: 'มิ้งค์',
   },
+  {
+    displayName: 'Jatumin Luis',
+    nickName: 'หลุย',
+  },
 ];
