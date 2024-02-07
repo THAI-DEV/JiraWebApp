@@ -52,7 +52,7 @@ export default function App001Page() {
   const setTrack = useSetAtom(setTrackAtom);
 
   let formData = {};
-  let currentDateForDuration;
+  // let currentDateForDuration;
 
   //* TAG  ---- Var (end) ----
 
@@ -78,6 +78,8 @@ export default function App001Page() {
   const [loading, setLoading] = useState(false);
 
   const [countdown, setCountdown] = useState(defaultAutoRefreshVal);
+
+  const [currentDateForDuration, setCurrentDateForDuration] = useState();
 
   const {
     defaultConfigTable,
@@ -144,7 +146,7 @@ export default function App001Page() {
   function genDuration(data) {
     let durationFormatter = createDurationFormatter('en-US');
 
-    currentDateForDuration = new Date();
+    setCurrentDateForDuration(new Date());
     return data.map((item) => {
       let date1;
       let date2;
@@ -160,6 +162,37 @@ export default function App001Page() {
       }
 
       if (durationType === '3') {
+        date1 = currentDateForDuration;
+        date2 = new Date(item.created);
+      }
+
+      let diff = date1 - date2;
+
+      return {
+        ...item,
+        duration: durationFormatter(diff),
+      };
+    });
+  }
+
+  function computeDuration(data, durationVal) {
+    let durationFormatter = createDurationFormatter('en-US');
+
+    return data.map((item) => {
+      let date1;
+      let date2;
+
+      if (durationVal === '1') {
+        date1 = new Date(item.updated);
+        date2 = new Date(item.created);
+      }
+
+      if (durationVal === '2') {
+        date1 = currentDateForDuration;
+        date2 = new Date(item.updated);
+      }
+
+      if (durationVal === '3') {
         date1 = currentDateForDuration;
         date2 = new Date(item.created);
       }
@@ -339,6 +372,14 @@ export default function App001Page() {
   }
   function searchHandler() {
     execSearch();
+  }
+
+  function changeDurationHandler(val) {
+    setDurationType(val);
+    if (jiraData && jiraData.length > 0) {
+      const result = computeDuration(jiraData, val);
+      setJiraData(result);
+    }
   }
 
   async function extendHandler() {
@@ -533,54 +574,6 @@ export default function App001Page() {
             </div>
           </div>
 
-          <br />
-
-          {/* TAG ---- Duration */}
-          <div className="grid">
-            <div className="col">
-              <label className="font-bold">Duration Formula</label>
-
-              <div className="flex flex-wrap gap-5">
-                <div className="flex align-items-center">
-                  <RadioButton
-                    inputId="durationType1"
-                    name="durationType"
-                    value="1"
-                    onChange={(e) => setDurationType(e.value)}
-                    checked={durationType === '1'}
-                  />
-                  <label htmlFor="durationType1" className="ml-2">
-                    Duration = Updated Date - Created Date
-                  </label>
-                </div>
-                <div className="flex align-items-center">
-                  <RadioButton
-                    inputId="durationType2"
-                    name="durationType"
-                    value="2"
-                    onChange={(e) => setDurationType(e.value)}
-                    checked={durationType === '2'}
-                  />
-                  <label htmlFor="durationType2" className="ml-2">
-                    Duration = Current Date - Updated Date
-                  </label>
-                </div>
-                <div className="flex align-items-center">
-                  <RadioButton
-                    inputId="durationType3"
-                    name="durationType"
-                    value="3"
-                    onChange={(e) => setDurationType(e.value)}
-                    checked={durationType === '3'}
-                  />
-                  <label htmlFor="durationType3" className="ml-2">
-                    Duration = Current Date - Created Date
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* TAG ---- Clear Btn */}
           <div className="col text-center ">
             <label className="font-bold block mb-2">&nbsp;</label>
@@ -616,19 +609,67 @@ export default function App001Page() {
 
         {/* TAG ---- Table */}
         <AccordionTab header="Output Table">
-          <div className="col-2">
-            <div className="align-items-left">
-              <InputSwitch
-                onChange={(e) => {
-                  setShowNickName(e.value);
-                  showDataTableNickNameHandler(jiraData);
-                }}
-                checked={isShowNickName}
-              />
-              <NonBreakingSpace num={5} />
-              <label className="font-bold">Show As NickName</label>
+          <div className="grid">
+            <div className="col-2">
+              <div className="align-items-left">
+                <InputSwitch
+                  onChange={(e) => {
+                    setShowNickName(e.value);
+                    showDataTableNickNameHandler(jiraData);
+                  }}
+                  checked={isShowNickName}
+                />
+                <NonBreakingSpace num={5} />
+                <label className="font-bold">Show As NickName</label>
+              </div>
+            </div>
+
+            {/* TAG ---- Duration */}
+
+            <div className="col">
+              <label className="font-bold">Duration Formula</label>
+
+              <div className="flex flex-wrap gap-5">
+                <div className="flex align-items-center">
+                  <RadioButton
+                    inputId="durationType1"
+                    name="durationType"
+                    value="1"
+                    onChange={(e) => changeDurationHandler(e.value)}
+                    checked={durationType === '1'}
+                  />
+                  <label htmlFor="durationType1" className="ml-2">
+                    Duration = Updated Date - Created Date
+                  </label>
+                </div>
+                <div className="flex align-items-center">
+                  <RadioButton
+                    inputId="durationType2"
+                    name="durationType"
+                    value="2"
+                    onChange={(e) => changeDurationHandler(e.value)}
+                    checked={durationType === '2'}
+                  />
+                  <label htmlFor="durationType2" className="ml-2">
+                    Duration = Last Date - Updated Date
+                  </label>
+                </div>
+                <div className="flex align-items-center">
+                  <RadioButton
+                    inputId="durationType3"
+                    name="durationType"
+                    value="3"
+                    onChange={(e) => changeDurationHandler(e.value)}
+                    checked={durationType === '3'}
+                  />
+                  <label htmlFor="durationType3" className="ml-2">
+                    Duration = Last Date - Created Date
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
+
           <DataTable
             value={jiraData}
             showGridlines
