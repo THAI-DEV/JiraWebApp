@@ -79,7 +79,7 @@ export default function App001Page() {
 
   const [countdown, setCountdown] = useState(defaultAutoRefreshVal);
 
-  const [currentDateForDuration, setCurrentDateForDuration] = useState();
+  const [currentDateForDuration, setCurrentDateForDuration] = useState(new Date());
 
   const {
     defaultConfigTable,
