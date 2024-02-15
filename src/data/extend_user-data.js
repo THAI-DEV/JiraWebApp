@@ -11,4 +11,8 @@ export const extendUserInfoData = [
     name: 'เกมส์',
     code: '712020:3ec50792-7989-43fc-a688-1e324241fc19',
   },
+  {
+    name: 'นีน',
+    code: '712020:af4fd845-587d-474a-b24a-45ca7878cdab',
+  },
 ];

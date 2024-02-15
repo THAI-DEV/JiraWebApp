@@ -207,4 +207,12 @@ export const userInfoData = [
     displayName: 'Jatumin Luis',
     nickName: 'หลุย',
   },
+  {
+    displayName: 'Jatumin Luis',
+    nickName: 'หลุย',
+  },
+  {
+    displayName: 'Thotsapon Khutpang',
+    nickName: 'กิ๊ฟ',
+  },
 ];
