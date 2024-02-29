@@ -15,4 +15,8 @@ export const extendUserInfoData = [
     name: 'นีน',
     code: '712020:af4fd845-587d-474a-b24a-45ca7878cdab',
   },
+  {
+    name: 'เจน CO',
+    code: '634e19f8b0b6ef035646e523',
+  },
 ];

@@ -85,7 +85,7 @@ export const userInfoData = [
   },
   {
     displayName: 'Jane Kanokon',
-    nickName: 'เจน DEV',
+    nickName: 'เจน',
   },
   {
     displayName: 'Nontapat',
