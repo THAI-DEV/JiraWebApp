@@ -215,4 +215,8 @@ export const userInfoData = [
     displayName: 'Thotsapon Khutpang',
     nickName: 'กิ๊ฟ',
   },
+  {
+    displayName: 'Saard S.',
+    nickName: 'สะอาด',
+  },
 ];
