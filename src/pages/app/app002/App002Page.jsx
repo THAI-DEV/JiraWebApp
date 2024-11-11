@@ -21,10 +21,10 @@ export default function App002Page() {
 
   return (
     <>
-      <h2 style={{ color: 'blue' }}>Link ไป Jira_SENSE_RSSFeed</h2>
+      <h2 style={{ color: 'blue' }}>Link ไป Jira_RSSFeed</h2>
       <br />
       <h3>
-        <a href="https://jira-sense-info-tech.atlassian.net/jira/dashboards/10003" target="_blank">
+        <a href="https://ruangdech.atlassian.net/jira/dashboards/10003" target="_blank">
           Open Activity Streams
         </a>
       </h3>
