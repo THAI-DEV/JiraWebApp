@@ -4,10 +4,13 @@ import { useAtom, useSetAtom } from 'jotai';
 
 import { authUserInfoAtom } from '../../../store/AuthStore';
 import { setTrackAtom } from '../../../store/TrackStore';
+import { JIRA_BASE_URL } from './../../../cont/cont.js';
 
 export default function App002Page() {
   const [authUserInfo] = useAtom(authUserInfoAtom);
   const setTrack = useSetAtom(setTrackAtom);
+
+  const dashboardLink = `${JIRA_BASE_URL}/dashboards/10001`;
 
   useEffect(() => {
     if (authUserInfo && !authUserInfo.isPassLogin) {
@@ -24,7 +27,7 @@ export default function App002Page() {
       <h2 style={{ color: 'blue' }}>Link ไป Jira_RSSFeed</h2>
       <br />
       <h3>
-        <a href="https://ruangdech.atlassian.net/jira/dashboards/10001" target="_blank">
+        <a href={dashboardLink} target="_blank">
           Open Activity Streams
         </a>
       </h3>

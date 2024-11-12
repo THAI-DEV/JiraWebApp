@@ -9,6 +9,8 @@ import { NonBreakingSpace } from '../../../components/NonBreakingSpace';
 
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
+import { JIRA_BASE_URL } from './../../../cont/cont.js';
+
 export default function useApp001Table(lastRefresh, totalRow) {
   const defaultConfigTable = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -61,7 +63,8 @@ export default function useApp001Table(lastRefresh, totalRow) {
   };
 
   const linkBodyTemplate1 = (rowData) => {
-    const linkStr = `https://jira-sense-info-tech.atlassian.net/browse/` + rowData.key;
+    const linkStr = `${JIRA_BASE_URL}/browse/${rowData.Key}`;
+
     return (
       <a target="_blank" href={linkStr}>
         {rowData.key}
@@ -70,7 +73,7 @@ export default function useApp001Table(lastRefresh, totalRow) {
   };
 
   const linkBodyTemplate2 = (rowData) => {
-    const linkStr = `https://jira-sense-info-tech.atlassian.net/browse/` + rowData.parentKey;
+    const linkStr = `${JIRA_BASE_URL}/browse/${rowData.parentKey}`;
 
     if (rowData.parentKey === 'none') {
       return <div>{''}</div>;
