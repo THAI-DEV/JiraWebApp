@@ -10,7 +10,7 @@ export default function App002Page() {
   const [authUserInfo] = useAtom(authUserInfoAtom);
   const setTrack = useSetAtom(setTrackAtom);
 
-  const dashboardLink = `${JIRA_BASE_URL}/dashboards/10001`;
+  const dashboardLink = `${JIRA_BASE_URL}/jira/dashboards/10001`;
 
   useEffect(() => {
     if (authUserInfo && !authUserInfo.isPassLogin) {

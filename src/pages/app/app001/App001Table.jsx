@@ -63,7 +63,7 @@ export default function useApp001Table(lastRefresh, totalRow) {
   };
 
   const linkBodyTemplate1 = (rowData) => {
-    const linkStr = `${JIRA_BASE_URL}/browse/${rowData.Key}`;
+    const linkStr = `${JIRA_BASE_URL}/browse/${rowData.key}`;
 
     return (
       <a target="_blank" href={linkStr}>
